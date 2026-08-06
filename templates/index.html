@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Celestial Church of Christ — Saint Michael Parish</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#FAF6EC;
+    --midnight:#0F1B33;
+    --gold:#C89B3C;
+    --gold-soft:#E4C77A;
+    --skyline:#4C6E91;
+    --ink:#20222A;
+    --white:#FFFFFF;
+    --line: rgba(15,27,51,0.12);
+    --shadow: 0 20px 50px rgba(15,27,51,0.12);
+    --radius: 14px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Work Sans', sans-serif;
+    color:var(--ink);
+    background:var(--ivory);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  h1,h2,h3,h4{font-family:'Cormorant Garamond', serif; font-weight:600; line-height:1.15; color:var(--midnight);}
+  .eyebrow{
+    font-size:0.72rem; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--gold); font-weight:600; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:''; width:22px; height:1px; background:var(--gold);}
+  .wrap{max-width:1160px; margin:0 auto; padding:0 28px;}
+  :focus-visible{outline:2px solid var(--gold); outline-offset:3px;}
+
+  /* Star / light signature element */
+  .star{
+    position:relative; display:inline-block; width:14px; height:14px;
+  }
+  .star svg{width:100%; height:100%;}
+
+  /* Header */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(250,246,236,0.88); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:16px 28px; max-width:1160px; margin:0 auto;}
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand .star svg circle, .brand .star svg path{fill:var(--gold);}
+  .brand-text{display:flex; flex-direction:column; line-height:1.05;}
+  .brand-text .brand-eyebrow{font-family:'Work Sans'; font-size:0.6rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); font-weight:700;}
+  .brand-text .brand-name{font-family:'Cormorant Garamond', serif; font-size:1.45rem; font-weight:700; color:var(--midnight); letter-spacing:0.01em;}
+  .nav-links{display:flex; gap:34px; font-size:0.9rem; font-weight:500;}
+  .nav-links a{position:relative; padding:4px 0; color:var(--midnight);}
+  .nav-links a::after{content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--gold); transition:width .25s ease;}
+  .nav-links a:hover::after{width:100%;}
+  .nav-cta{
+    background:var(--midnight); color:var(--ivory); padding:10px 22px; border-radius:30px;
+    font-size:0.85rem; font-weight:600; letter-spacing:0.02em;
+    border:1px solid var(--midnight); transition:all .25s ease;
+  }
+  .nav-cta:hover{background:var(--gold); border-color:var(--gold); color:var(--midnight);}
+  .menu-toggle{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px;}
+  .menu-toggle span{width:22px; height:2px; background:var(--midnight); display:block;}
+
+  /* Hero */
+  .hero{
+    position:relative; min-height:92vh; display:flex; align-items:center;
+    background:radial-gradient(ellipse 80% 60% at 50% 15%, #1c2e52 0%, var(--midnight) 55%, #0a1224 100%);
+    color:var(--ivory); overflow:hidden; padding-top:80px;
+  }
+  .hero-stars{position:absolute; inset:0; z-index:0;}
+  .hero-stars span{
+    position:absolute; width:2px; height:2px; background:var(--gold-soft); border-radius:50%;
+    opacity:0.7; animation:twinkle 4s ease-in-out infinite;
+  }
+  @keyframes twinkle{0%,100%{opacity:0.15;} 50%{opacity:0.9;}}
+  .hero-glow{
+    position:absolute; top:-10%; left:50%; transform:translateX(-50%);
+    width:640px; height:640px; border-radius:50%;
+    background:radial-gradient(circle, rgba(200,155,60,0.28) 0%, rgba(200,155,60,0) 68%);
+    z-index:0;
+  }
+  .hero-content{position:relative; z-index:2; max-width:1160px; margin:0 auto; padding:0 28px; text-align:center;}
+  .hero .eyebrow{justify-content:center; color:var(--gold-soft); margin-bottom:22px;}
+  .hero .eyebrow::before{background:var(--gold-soft);}
+  .hero h1{font-size:clamp(2.6rem, 6vw, 4.6rem); color:var(--white); max-width:820px; margin:0 auto 22px;}
+  .hero h1 em{font-style:italic; color:var(--gold-soft);}
+  .hero p.lead{font-size:1.08rem; color:rgba(250,246,236,0.78); max-width:520px; margin:0 auto 40px; font-weight:300;}
+  .hero-actions{display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-bottom:56px;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:14px 30px; border-radius:30px;
+    font-size:0.92rem; font-weight:600; cursor:pointer; border:1px solid transparent; transition:all .25s ease;
+  }
+  .btn-primary{background:var(--gold); color:var(--midnight);}
+  .btn-primary:hover{background:var(--gold-soft); transform:translateY(-2px);}
+  .btn-ghost{border-color:rgba(250,246,236,0.35); color:var(--ivory);}
+  .btn-ghost:hover{border-color:var(--gold-soft); color:var(--gold-soft);}
+  .btn-dark{background:var(--midnight); color:var(--ivory);}
+  .btn-dark:hover{background:#1c2e52;}
+
+  .hero-strip{
+    position:relative; z-index:2; border-top:1px solid rgba(250,246,236,0.14);
+    display:grid; grid-template-columns:repeat(3,1fr);
+  }
+  .hero-strip div{padding:22px 10px; text-align:center; border-right:1px solid rgba(250,246,236,0.14);}
+  .hero-strip div:last-child{border-right:none;}
+  .hero-strip .label{font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold-soft); margin-bottom:6px;}
+  .hero-strip .value{font-family:'Cormorant Garamond', serif; font-size:1.25rem; color:var(--white);}
+
+  /* Section shell */
+  section{padding:110px 0;}
+  .section-head{max-width:600px; margin-bottom:60px;}
+  .section-head.center{margin-left:auto; margin-right:auto; text-align:center;}
+  .section-head h2{font-size:clamp(2rem,4vw,2.7rem); margin-top:16px;}
+  .divider{
+    display:flex; align-items:center; justify-content:center; gap:14px; margin:0 auto 18px;
+  }
+  .divider .line{width:60px; height:1px; background:var(--line);}
+
+  /* About */
+  .about{background:var(--white);}
+  .about-grid{display:grid; grid-template-columns:1fr 1fr; gap:70px; align-items:center;}
+  .about-media{
+    position:relative; aspect-ratio:4/5; border-radius:var(--radius); overflow:hidden;
+    background:linear-gradient(160deg,#1c2e52,var(--midnight)); box-shadow:var(--shadow);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .about-media .placeholder-text{color:rgba(250,246,236,0.55); font-size:0.85rem; text-align:center; padding:30px; font-family:'Work Sans';}
+  .about-media .frame-star{position:absolute; top:24px; right:24px; opacity:0.8;}
+  .about p{color:#4a4d57; margin:18px 0 26px; font-weight:300; font-size:1.02rem;}
+  .value-list{display:grid; grid-template-columns:1fr 1fr; gap:18px 26px; margin-top:30px;}
+  .value-list li{list-style:none; display:flex; gap:12px; align-items:flex-start; font-size:0.92rem;}
+  .value-list .num{font-family:'Cormorant Garamond', serif; color:var(--gold); font-weight:600; font-size:1.1rem;}
+
+  /* Services / worship */
+  .services{background:var(--ivory); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .service-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:26px;}
+  .service-card{
+    background:var(--white); border:1px solid var(--line); border-radius:var(--radius);
+    padding:36px 30px; transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .service-card:hover{transform:translateY(-6px); box-shadow:var(--shadow);}
+  .service-card .star{margin-bottom:20px;}
+  .service-card h3{font-size:1.3rem; margin-bottom:10px;}
+  .service-card p{color:#5a5d67; font-size:0.92rem; font-weight:300;}
+  .service-card .when{
+    margin-top:18px; font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--skyline); font-weight:600;
+  }
+
+  /* Ministry / sermons */
+  .ministry{background:var(--white);}
+  .ministry-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:50px; align-items:stretch;}
+  .sermon-feature{
+    border-radius:var(--radius); overflow:hidden; position:relative; min-height:420px;
+    background:linear-gradient(180deg, rgba(15,27,51,0.15), rgba(15,27,51,0.92)), linear-gradient(160deg,#25396200,#0F1B33);
+    display:flex; align-items:flex-end; padding:36px; box-shadow:var(--shadow);
+  }
+  .sermon-feature .tag{
+    position:absolute; top:24px; left:24px; background:var(--gold); color:var(--midnight);
+    font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+    padding:6px 14px; border-radius:20px;
+  }
+  .sermon-feature .info h3{color:var(--white); font-size:1.7rem; margin-bottom:8px;}
+  .sermon-feature .info p{color:rgba(250,246,236,0.75); font-size:0.9rem; font-weight:300;}
+  .sermon-list{display:flex; flex-direction:column; gap:16px;}
+  .sermon-row{
+    display:flex; gap:18px; align-items:center; padding:16px; border:1px solid var(--line); border-radius:12px;
+    transition:border-color .25s ease;
+  }
+  .sermon-row:hover{border-color:var(--gold);}
+  .sermon-row .play{
+    width:42px; height:42px; border-radius:50%; background:var(--midnight); color:var(--gold-soft);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.8rem;
+  }
+  .sermon-row h4{font-family:'Work Sans'; font-weight:600; font-size:0.95rem; color:var(--midnight);}
+  .sermon-row span{font-size:0.78rem; color:#8a8d97;}
+
+  /* Prayer request */
+  .prayer{
+    background:linear-gradient(160deg,#152a4d, var(--midnight)); color:var(--ivory);
+    text-align:center;
+  }
+  .prayer .section-head h2{color:var(--white);}
+  .prayer p{color:rgba(250,246,236,0.75); max-width:520px; margin:0 auto 34px; font-weight:300;}
+
+  /* Gallery */
+  .gallery{background:var(--ivory);}
+  .gallery-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); grid-auto-rows:150px; gap:14px;
+  }
+  .gallery-grid .g-item{
+    border-radius:10px; background:linear-gradient(140deg,#25396a,#0F1B33);
+    display:flex; align-items:center; justify-content:center; color:rgba(250,246,236,0.4);
+    font-size:0.72rem; text-align:center; padding:10px; position:relative; overflow:hidden;
+  }
+  .gallery-grid .g-item:nth-child(1){grid-column:span 2; grid-row:span 2;}
+  .gallery-grid .g-item:nth-child(4){grid-row:span 2;}
+
+  /* Giving */
+  .giving{background:var(--white);}
+  .giving-card{
+    background:linear-gradient(135deg,#fff, #FAF6EC); border:1px solid var(--line); border-radius:20px;
+    padding:60px; display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:center; box-shadow:var(--shadow);
+  }
+  .giving-card p{color:#4a4d57; font-weight:300; margin:16px 0 28px;}
+  .giving-options{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:24px;}
+  .amount-chip{
+    border:1px solid var(--line); padding:10px 20px; border-radius:30px; font-size:0.88rem; font-weight:600;
+    background:var(--white); cursor:pointer; transition:all .2s ease;
+  }
+  .amount-chip.active, .amount-chip:hover{background:var(--midnight); color:var(--ivory); border-color:var(--midnight);}
+  .giving-visual{
+    aspect-ratio:1/1; border-radius:16px; background:radial-gradient(circle at 30% 30%, var(--gold-soft), var(--midnight) 75%);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .giving-visual .star svg{width:52px; height:52px;}
+.alert{
+    padding:15px;
+    margin-bottom:20px;
+    border-radius:8px;
+    font-weight:500;
+    animation:fadeIn .5s ease;
+}
+
+.alert-success{
+    background:#d4edda;
+    color:#155724;
+    border:1px solid #c3e6cb;
+}
+
+.alert-danger{
+    background:#f8d7da;
+    color:#721c24;
+    border:1px solid #f5c6cb;
+}
+
+.alert-warning{
+    background:#fff3cd;
+    color:#856404;
+    border:1px solid #ffeeba;
+}
+
+.form-control{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:6px;
+    font-size:15px;
+    box-sizing:border-box;
+}
+
+textarea.form-control{
+    min-height:130px;
+    resize:vertical;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(-10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+  /* Announcements */
+  .announce{background:var(--ivory); border-top:1px solid var(--line);}
+  .announce-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:26px;}
+  .announce-card{background:var(--white); border-radius:var(--radius); padding:28px; border:1px solid var(--line);}
+  .announce-card .date{font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:12px;}
+  .announce-card h4{font-size:1.15rem; margin-bottom:8px;}
+  .announce-card p{font-size:0.88rem; color:#5a5d67; font-weight:300;}
+
+  /* Footer */
+  footer{background:var(--midnight); color:rgba(250,246,236,0.7); padding:70px 0 30px;}
+  .footer-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; padding-bottom:50px; border-bottom:1px solid rgba(250,246,236,0.12);}
+  .footer-grid h5{color:var(--gold-soft); font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:18px; font-weight:600;}
+  .footer-grid a{display:block; font-size:0.9rem; margin-bottom:12px; color:rgba(250,246,236,0.72);}
+  .footer-grid a:hover{color:var(--gold-soft);}
+  .footer-brand{display:flex; align-items:center; gap:10px; font-family:'Cormorant Garamond', serif; font-size:1.6rem; font-weight:700; color:var(--white); margin-bottom:14px;}
+  .footer-bottom{display:flex; justify-content:space-between; padding-top:26px; font-size:0.8rem; flex-wrap:wrap; gap:10px;}
+
+
+   /* Patriarchs & Heroes */
+.patriarchs{background:var(--white); border-top:1px solid var(--line);}
+.patriarchs-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:22px;}
+.patriarch-card{border-radius:var(--radius); overflow:hidden; border:1px solid var(--line); background:var(--ivory); transition:transform .3s ease, box-shadow .3s ease;}
+.patriarch-card:hover{transform:translateY(-4px); box-shadow:var(--shadow);}
+.patriarch-card .img-ph{
+  aspect-ratio:3/4; background:linear-gradient(140deg,#25396a,#0F1B33);
+  display:flex; align-items:center; justify-content:center;
+  color:rgba(250,246,236,0.45); font-size:0.72rem; text-align:center; padding:14px;
+}
+.patriarch-card .caption{padding:16px; text-align:center;}
+.patriarch-card .caption h4{font-size:1.02rem; margin-bottom:4px;}
+.patriarch-card .caption span{font-size:0.76rem; color:#8a8d97; letter-spacing:0.02em;}
+
+/* Registration */
+.register{background:var(--ivory); border-top:1px solid var(--line);}
+.register-card{
+  background:var(--white); border:1px solid var(--line); border-radius:20px;
+  padding:50px; box-shadow:var(--shadow);
+}
+.form-grid{display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+.form-group{display:flex; flex-direction:column; gap:6px;}
+.form-group.full{grid-column:1 / -1;}
+.form-group label{font-size:0.8rem; font-weight:600; color:var(--midnight); letter-spacing:0.02em;}
+.form-group input, .form-group select, .form-group textarea{
+  font-family:'Work Sans'; font-size:0.92rem; padding:12px 14px;
+  border:1px solid var(--line); border-radius:8px; background:var(--ivory); color:var(--ink);
+}
+.form-group textarea{resize:vertical; min-height:90px;}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus{outline:none; border-color:var(--gold);}
+.form-section-label{
+  grid-column:1 / -1; font-size:0.72rem; letter-spacing:0.15em; text-transform:uppercase;
+  color:var(--gold); font-weight:700; margin-top:10px; padding-top:20px; border-top:1px solid var(--line);
+}
+.form-group.full:first-child .form-section-label, .form-grid > .form-section-label:first-child{border-top:none; margin-top:0; padding-top:0;}
+.register-actions{grid-column:1 / -1; text-align:center; margin-top:10px;}
+
+@media (max-width:900px){
+  .patriarchs-grid{grid-template-columns:repeat(2,1fr);}
+  .form-grid{grid-template-columns:1fr;}
+  .register-card{padding:32px 24px;}
+}
+
+  .popup-modal{
+    display:flex;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+}
+
+.popup-content{
+    width:90%;
+    max-width:450px;
+    background:#fff;
+    border-radius:12px;
+    padding:35px;
+    text-align:center;
+    position:relative;
+    animation:pop .4s ease;
+}
+
+.popup-icon{
+    font-size:60px;
+    margin-bottom:15px;
+}
+
+.popup-content h2{
+    color:#006400;
+    margin-bottom:10px;
+}
+
+.popup-content p{
+    line-height:1.7;
+    margin-bottom:25px;
+}
+
+#popupBtn{
+    background:#0b7a3e;
+    color:white;
+    border:none;
+    padding:12px 30px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+#popupBtn:hover{
+    background:#095c2f;
+}
+
+.close-popup{
+    position:absolute;
+    top:10px;
+    right:18px;
+    font-size:28px;
+    cursor:pointer;
+}
+
+@keyframes pop{
+    from{
+        opacity:0;
+        transform:scale(.7);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .hero-stars span{animation:none;}
+  }
+
+  @media (max-width: 900px){
+    .nav-links, .nav-cta{display:none;}
+    .menu-toggle{display:flex;}
+    .about-grid, .ministry-grid, .giving-card{grid-template-columns:1fr;}
+    .service-grid, .announce-grid{grid-template-columns:1fr;}
+    .gallery-grid{grid-template-columns:repeat(2,1fr);}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .hero-strip{grid-template-columns:1fr;}
+    .hero-strip div{border-right:none; border-bottom:1px solid rgba(250,246,236,0.14);}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="index.html" class="brand" style="text-decoration:none;">
+      <span class="star">
+        <svg viewBox="0 0 24 24"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg>
+      </span>
+      <div class="brand-text">
+        <h1 class="brand-eyebrow">Celestial Church of Christ</h1>
+        <span class="brand-name">Saint Michael Parish</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="{{url_for('about')}}" target="_blank">About</a>
+      <a href="{{url_for('worship')}}">Worship</a>
+      <a href="{{url_for('sermons')}}">Sermons</a>
+      <a href="{{url_for('gallery')}}">Gallery</a>
+      <a href="{{url_for('announcements')}}">Announcements</a>
+      <a href="{{url_for('contact')}}">Contact</a>
+    </div>
+    <a href="{{url_for('give')}}" class="nav-cta">Give</a>
+    <button class="menu-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-stars" id="heroStars"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="eyebrow">Celestial Church of Christ</div>
+    <h1>A light for the parish, <em>a home</em> for the faithful</h1>
+    <p class="lead">Saint Michael Parish welcomes you to worship, prayer, and fellowship rooted in the Aladura tradition — in spirit and in truth.</p>
+    <div class="hero-actions">
+      <a href="{{url_for('worship')}}" class="btn btn-primary">Worship with us</a>
+        <a href="{{url_for('prayer_request')}}" class="btn btn-primary">Prayer Request</a>
+      <a href="#register" class="btn btn-ghost">Register as Member</a>
+    </div>
+  </div>
+  <div class="hero-strip wrap">
+    <div><div class="label">Sunday Service</div><div class="value">10:00 AM</div></div>
+    <div><div class="label">Weekly Services</div>
+        <div class="value">Monday, 12:00am, Sidemen and sidewomen vigil</div>
+        <div class="value">Tuesday, 12:00am, Youth Vigil</div>
+    </div>
+    <div><div class="label">Location</div><div class="value">Saint Michael Parish, Nigeria</div></div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <div class="about-media">
+      <span class="frame-star star"><svg viewBox="0 0 24 24" fill="#E4C77A"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+      <div class="placeholder-text">Congregation photo — white sutana, service in progress</div>
+    </div>
+    <div>
+      <div class="eyebrow">Who we are</div>
+      <h2>Rooted in faith, guided by light</h2>
+      <p>Celestial Church of Christ, Saint Michael Parish, is a community of believers walking in the Aladura tradition — grounded in prayer, revelation, and the pursuit of holiness. We gather to worship in spirit and truth, guided by the Foundational Blueprint and Constitution of the Church.</p>
+      <ul class="value-list">
+        <li><span class="num">01</span> Prayer &amp; Revelation</li>
+        <li><span class="num">02</span> Holiness of Life</li>
+        <li><span class="num">03</span> Fellowship &amp; Service</li>
+        <li><span class="num">04</span> Discipline &amp; Order</li>
+      </ul>
+      <a href="{{url_for('about')}}" class="btn btn-dark" style="margin-top:34px;">Read Our History</a>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="worship">
+  <div class="wrap">
+    <div class="section-head center">
+      <div class="divider"><span class="line"></span><span class="eyebrow" style="margin:0;">Worship With Us</span><span class="line"></span></div>
+      <h2>Services &amp; Ministry Life</h2>
+    </div>
+    <div class="service-grid">
+      <div class="service-card">
+        <span class="star"><svg viewBox="0 0 24 24" fill="#C89B3C"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+        <h3>Sunday Worship</h3>
+        <p>Our main service of praise, the Word, and Holy Communion for the whole parish family.</p>
+        <div class="when">10:00 AM</div>
+      </div>
+       <div class="service-card">
+  <span class="star"><svg viewBox="0 0 24 24" fill="#C89B3C"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+  <h3>Weekly Service Schedule</h3>
+  <p>A time set apart for intercession, testimonies, and the study of the Word.</p>
+  <div class="when"><a href="#" data-modal="weekly-schedule" style="color:var(--skyline); text-transform:none; letter-spacing:0; font-weight:600;">Read More</a></div>
+</div>
+      <div class="service-card">
+        <span class="star"><svg viewBox="0 0 24 24" fill="#C89B3C"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+        <h3>Special Services</h3>
+        <p>Harvest, Thanksgiving, and Watchnight services celebrated through the year.</p>
+        <div class="when">
+            <a href="{{url_for('announcements')}}">See Announcements</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ministry" id="sermons">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Worship &amp; Ministry</div>
+      <h2>Sermons &amp; Devotionals</h2>
+    </div>
+    <div class="ministry-grid">
+      <div class="sermon-feature">
+        <span class="tag">Live This Sunday</span>
+        <div class="info">
+          <h3>Walking in the Light</h3>
+          <p>Join our Sunday service live, or catch up on the message afterward from the archive.</p>
+        </div>
+      </div>
+      <div class="sermon-list">
+        <div class="sermon-row">
+          <div class="play">▶</div>
+          <div><h4>Faith Under Trial</h4><span>Midweek Service · 32 min</span></div>
+        </div>
+        <div class="sermon-row">
+          <div class="play">▶</div>
+          <div><h4>The Foundational Blueprint</h4><span>Sunday Service · 41 min</span></div>
+        </div>
+        <div class="sermon-row">
+          <div class="play">▶</div>
+          <div><h4>Prayer as a Way of Life</h4><span>Sunday Service · 38 min</span></div>
+        </div>
+        <a href="{{url_for('sermons')}}" class="btn btn-dark" style="align-self:flex-start;">Browse All Sermons</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="prayer">
+  <div class="wrap">
+    <div class="section-head center">
+      <div class="divider"><span class="line" style="background:rgba(250,246,236,0.25);"></span><span class="eyebrow" style="margin:0;">We Are Here For You</span><span class="line" style="background:rgba(250,246,236,0.25);"></span></div>
+    </div>
+    <p>Share what's on your heart with our prayer team. Every request is held in confidence and lifted in prayer.</p>
+        <a href="{{url_for('prayer_request')}}" class="btn btn-primary">Prayer Request</a>
+  </div>
+</section>
+
+<section class="gallery" id="gallery">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Life at the Parish</div>
+      <h2>Gallery</h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="g-item">Sunday Service</div>
+      <div class="g-item">Choir</div>
+      <div class="g-item">Baptism</div>
+      <div class="g-item">Harvest</div>
+      <div class="g-item">Youth Fellowship</div>
+      <div class="g-item">Watchnight</div>
+    </div>
+  </div>
+</section>
+
+<section class="patriarchs" id="patriarchs">
+  <div class="wrap">
+    <div class="section-head center">
+      <div class="divider"><span class="line"></span><span class="eyebrow" style="margin:0;">Honouring Those Who Went Before</span><span class="line"></span></div>
+      <h2>The Legendary Patriarchs and Heroes of the Past</h2>
+    </div>
+    <div class="patriarchs-grid">
+      <div class="patriarch-card">
+        <div class="img-ph">
+            <img src="../static/images/WhatsApp Image 2026-08-02 at 10.48.47 .jpeg" alt="baba bada">
+        </div>
+        <div class="caption"><h4>Alexander Abiodun Adebayo Bada </h4>
+            <span> Second Pastor and Supreme Head.</span></div>
+      </div>
+      <div class="patriarch-card">
+        <div class="img-ph">
+            <img src="../static/images/ajose.jpeg" alt="ajose">
+        </div>
+        <div class="caption"><h4>Philip Hunsu Ajose .</h4><span>Third Pastor and spiritual leader</span></div>
+      </div>
+      <div class="patriarch-card">
+        <div class="img-ph">
+            <img src="../static/images/ajanlekoko.jpeg" alt="ajanlekoko" >
+        </div>
+        <div class="caption"><h4>Superior Evangelist Samuel Olatunji Ajanlekoko .</h4><span>(Baba Ajanlekoko)</span></div>
+      </div>
+      <div class="patriarch-card">
+        <div class="img-ph">
+            <img src="../static/images/WhatsApp Image 2026-08-02 at 10.48.47 PM.jpeg">
+        </div>
+        <div class="caption"><h4>Superior Evangelist Paul Suru Maforikan .</h4><span>(Baba Maforikan)</span></div>
+      </div>
+
+        <div class="patriarch-card">
+        <div class="img-ph">
+            <img src="../static/images/WhatsApp Image 2026-08-02 at 10.48.48 PM.jpeg">
+        </div>
+        <div class="caption"><h4>Rev pro Beni Omoge .</h4><span>(Baba Omoge)</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="giving" id="give">
+  <div class="wrap">
+    <div class="giving-card">
+      <div>
+        <div class="eyebrow">Stewardship</div>
+        <h2>Give Toward the Work</h2>
+        <p>Your giving supports the ministry, outreach, and upkeep of Saint Michael Parish. Give securely online in a few taps.</p>
+        <div class="giving-options">
+          <button class="amount-chip active">₦5,000</button>
+          <button class="amount-chip">₦10,000</button>
+          <button class="amount-chip">₦25,000</button>
+          <button class="amount-chip">Other</button>
+        </div>
+        <a href="{{url_for('give')}}" class="btn btn-primary">Give Now</a>
+      </div>
+      <div class="giving-visual">
+        <span class="star"><svg viewBox="0 0 24 24" fill="#0F1B33"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="announce" id="announcements">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Stay Informed</div>
+      <h2>Announcements &amp; Events</h2>
+    </div>
+    <div class="announce-grid">
+      <div class="announce-card">
+        <div class="date">Aug 3, 2026</div>
+        <h4>Annual Harvest &amp; Thanksgiving</h4>
+        <p>Join us as we celebrate God's faithfulness with a full weekend of services and fellowship.</p>
+      </div>
+      <div class="announce-card">
+        <div class="date"> 2026</div>
+        <h4>New Member Registration</h4>
+        <p>Register your membership profile after service in the church office or online.</p>
+      </div>
+      <div class="announce-card">
+        <div class="date"> 2026</div>
+        <h4>Youth Fellowship Meeting</h4>
+        <p>All young members are invited for fellowship, prayer, and planning.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="register" id="register">
+  <div class="wrap">
+    <div class="section-head center">
+      <div class="divider"><span class="line"></span><span class="eyebrow" style="margin:0;">Join The Parish Family</span><span class="line"></span></div>
+      <h2>Member Registration</h2>
+    </div>
+    <div class="register-card">
+            <!-- Flash Message -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form class="form-grid" action="{{ url_for('index') }}" method="POST">
+
+                {{ form.hidden_tag() }}
+
+                <!-- ================= PERSONAL DETAILS ================= -->
+
+                <div class="form-section-label">Personal Details</div>
+
+                <div class="form-group">
+                    {{ form.first_name.label }}
+                    {{ form.first_name(class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.last_name.label }}
+                    {{ form.last_name(class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.other_name.label }}
+                    {{ form.other_name(class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.gender.label }}
+                    {{ form.gender(class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.date_of_birth.label }}
+                    {{ form.date_of_birth(class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.marital_status.label }}
+                    {{ form.marital_status(class="form-control") }}
+                </div>
+
+                <!-- ================= CONTACT DETAILS ================= -->
+
+                <div class="form-section-label">
+                    Contact Details
+                </div>
+
+                <div class="form-group">
+                    {{ form.phone.label }}
+                    {{ form.phone(class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.alternate_phone.label }}
+                    {{ form.alternate_phone(class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.email.label }}
+                    {{ form.email(class="form-control") }}
+                </div>
+
+                <div class="form-group full">
+                    {{ form.address.label }}
+                    {{ form.address(class="form-control") }}
+                </div>
+
+                <!-- ================= WORK DETAILS ================= -->
+
+                <div class="form-section-label">
+                    Work & Background
+                </div>
+
+                <div class="form-group">
+                    {{ form.occupation.label }}
+                    {{ form.occupation(class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.place_of_work.label }}
+                    {{ form.place_of_work(class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.invited_by.label }}
+                    {{ form.invited_by(class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.first_time_visit.label }}
+                    {{ form.first_time_visit(class="form-control") }}
+                </div>
+
+                <!-- ================= SPIRITUAL LIFE ================= -->
+
+                <div class="form-section-label">
+                    Spiritual Life
+                </div>
+
+                <div class="form-group">
+                    {{ form.born_again.label }}
+                    {{ form.born_again(class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.baptized.label }}
+                    {{ form.baptized(class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.department_of_interest.label }}
+                    {{ form.department_of_interest(class="form-control") }}
+                </div>
+
+                <div class="form-group full">
+                    {{ form.prayer_request.label }}
+                    {{ form.prayer_request(class="form-control") }}
+                </div>
+
+                <!-- ================= EMERGENCY CONTACT ================= -->
+
+                <div class="form-section-label">
+                    Emergency Contact
+                </div>
+
+                <div class="form-group">
+                    {{ form.emergency_contact_name.label }}
+                    {{ form.emergency_contact_name(class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.emergency_contact_phone.label }}
+                    {{ form.emergency_contact_phone(class="form-control") }}
+                </div>
+
+                <!-- ================= SUBMIT ================= -->
+
+                <div class="register-actions">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</section>
+
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <span class="star"><svg viewBox="0 0 24 24" fill="#E4C77A"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+          Celestial Church of Christ
+        </div>
+        <p style="font-size:0.88rem; max-width:280px; font-weight:300;">Saint Michael Parish — a community of faith, order, and light in the Aladura tradition.</p>
+      </div>
+      <div>
+        <h5>Explore</h5>
+        <a href="{{url_for('index')}}">Home</a>
+        <a href="{{url_for('about')}}">About</a>
+        <a href="{{url_for('worship')}}">Worship</a>
+        <a href="{{url_for('sermons')}}">Sermons</a>
+        <a href="{{url_for('gallery')}}">Gallery</a>
+        <a href="{{url_for('announcements')}}">Announcements</a>
+        <a href="{{url_for('contact')}}">Contact</a>
+      </div>
+      <div>
+        <h5>Church</h5>
+        <a href="about.html#governance">Governance &amp; Policies</a>
+        <a href="about.html#departments">Departments</a>
+        <a href="announcements.html">Resources</a>
+        <a href="give.html">Give</a>
+      </div>
+      <div>
+        <h5>Contact</h5>
+        <a href="contact.html">Parish Address</a>
+        <a href="contact.html">Phone / WhatsApp</a>
+        <a href="contact.html">Email the Office</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Celestial Church of Christ, Global Blessed Crusader, Saint Michael Parish. All rights reserved.</span>
+      <span>Built for the Kingdom.</span>
+            <span>Developed by <a href="https://abenicodecraftportfolio.netlify.app/"> abenicodecraft</a></span>
+
+    </div>
+  </div>
+</footer>
+<script>
+setTimeout(function(){
+    const alerts=document.querySelectorAll(".alert");
+
+    alerts.forEach(function(alert){
+        alert.style.transition="0.5s";
+        alert.style.opacity="0";
+
+        setTimeout(function(){
+            alert.remove();
+        },500);
+    });
+
+},5000);
+</script>
+<script>
+  // Scatter stars in the hero
+  const starsField = document.getElementById('heroStars');
+  const total = 60;
+  for(let i=0;i<total;i++){
+    const s = document.createElement('span');
+    s.style.top = Math.random()*100+'%';
+    s.style.left = Math.random()*100+'%';
+    s.style.animationDelay = (Math.random()*4)+'s';
+    s.style.width = s.style.height = (Math.random()*2+1)+'px';
+    starsField.appendChild(s);
+  }
+
+  // Mobile menu toggle
+  const toggle = document.querySelector('.menu-toggle');
+  const links = document.querySelector('.nav-links');
+  toggle.addEventListener('click', ()=>{
+    const open = links.style.display === 'flex';
+    links.style.display = open ? 'none' : 'flex';
+    links.style.cssText += open ? '' : 'position:absolute; top:64px; left:0; right:0; background:#FAF6EC; flex-direction:column; padding:20px 28px; border-bottom:1px solid rgba(15,27,51,0.12);';
+  });
+
+  // Giving amount chips
+  document.querySelectorAll('.amount-chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      document.querySelectorAll('.amount-chip').forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+</script>
+<script>
+
+const modal = document.getElementById("popupModal");
+
+if(modal){
+
+    document.querySelector(".close-popup").onclick=function(){
+        window.location.href="/";
+    }
+
+    document.getElementById("popupBtn").onclick=function(){
+        window.location.href="/";
+    }
+
+    window.onclick=function(e){
+        if(e.target==modal){
+            window.location.href="/";
+        }
+    }
+
+}
+
+</script>
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+
+        <div id="popupModal" class="popup-modal">
+            <div class="popup-content">
+                <div class="popup-icon">
+                    ✅
+                </div>
+                <h2>Registration Successful</h2>
+                <p>{{ message }}</p>
+                <a id="popupBtn" href="{{url_for('index')}}">
+                    Return to Homepage
+                </a>
+
+            </div>
+        </div>
+
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+</body>
+</html>
