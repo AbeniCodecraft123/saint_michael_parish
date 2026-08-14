@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — Saint Michael Parish</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#FAF6EC;
+    --midnight:#0F1B33;
+    --midnight-soft:#17284A;
+    --gold:#C89B3C;
+    --gold-soft:#E4C77A;
+    --skyline:#4C6E91;
+    --ink:#20222A;
+    --white:#FFFFFF;
+    --line:#E7E2D4;
+    --muted:#8A8D97;
+    --success:#3E8E5A;
+    --danger:#B23A3A;
+    --shadow:0 16px 40px rgba(15,27,51,0.08);
+    --radius:14px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Work Sans', sans-serif; background:var(--ivory); color:var(--ink);
+    display:flex; min-height:100vh;
+  }
+  h1,h2,h3,h4{font-family:'Cormorant Garamond', serif; color:var(--midnight); font-weight:600;}
+  a{color:inherit; text-decoration:none;}
+  :focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
+  button{font-family:inherit; cursor:pointer;}
+
+  /* Sidebar */
+  .sidebar{
+    width:250px; background:var(--midnight); color:rgba(250,246,236,0.75);
+    flex-shrink:0; display:flex; flex-direction:column; padding:26px 18px; position:sticky; top:0; height:100vh; overflow-y:auto;
+  }
+  .sidebar-brand{display:flex; align-items:center; gap:10px; color:var(--white); font-family:'Cormorant Garamond', serif; font-size:1.35rem; font-weight:700; padding:6px 10px 30px;}
+  .sidebar-brand .star svg{width:16px; height:16px;}
+  .nav-group{margin-bottom:22px;}
+  .nav-group .label{font-size:0.68rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-soft); padding:0 12px 10px; font-weight:600;}
+  .nav-item{
+    display:flex; align-items:center; gap:12px; padding:11px 12px; border-radius:9px; font-size:0.9rem; font-weight:500;
+    margin-bottom:2px; transition:background .2s ease, color .2s ease; cursor:pointer;
+  }
+  .nav-item:hover{background:rgba(250,246,236,0.06); color:var(--white);}
+  .nav-item.active{background:var(--gold); color:var(--midnight); font-weight:600;}
+  .nav-item .dot{width:6px; height:6px; border-radius:50%; background:currentColor; opacity:0.6; flex-shrink:0;}
+  .sidebar-foot{margin-top:auto; padding:14px 12px; border-top:1px solid rgba(250,246,236,0.1); font-size:0.8rem;}
+  .sidebar-foot a{color:var(--gold-soft); font-weight:600;}
+
+  /* Main */
+  .main{flex:1; min-width:0;}
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; padding:20px 34px;
+    background:var(--white); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:10;
+  }
+  .search{
+    display:flex; align-items:center; gap:10px; background:var(--ivory); border:1px solid var(--line);
+    border-radius:30px; padding:9px 18px; width:320px; font-size:0.86rem; color:var(--muted);
+  }
+  .topbar-right{display:flex; align-items:center; gap:18px;}
+  .icon-btn{
+    width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:var(--white);
+    display:flex; align-items:center; justify-content:center; font-size:0.95rem;
+  }
+  .profile{display:flex; align-items:center; gap:10px; position:relative;}
+  .avatar{width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,var(--gold-soft),var(--midnight)); overflow:hidden; flex-shrink:0;}
+  .avatar img{width:100%; height:100%; object-fit:cover;}
+  .profile .name{font-size:0.85rem; font-weight:600;}
+  .profile .role{font-size:0.72rem; color:var(--muted);}
+  .logout-link{font-size:0.76rem; color:var(--danger); font-weight:600; margin-left:6px;}
+
+  .content{padding:34px;}
+  .page-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:28px; flex-wrap:wrap; gap:14px;}
+  .page-head .eyebrow{font-size:0.72rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:6px;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:11px 22px; border-radius:10px; font-size:0.86rem;
+    font-weight:600; border:1px solid transparent; transition:all .2s ease;
+  }
+  .btn-primary{background:var(--midnight); color:var(--ivory);}
+  .btn-primary:hover{background:var(--midnight-soft);}
+  .btn-outline{border-color:var(--line); background:var(--white); color:var(--ink);}
+  .btn-outline:hover{border-color:var(--gold);}
+  .btn-danger{border-color:var(--danger); background:var(--white); color:var(--danger);}
+  .btn-danger:hover{background:var(--danger); color:var(--white);}
+  .btn-sm{padding:7px 14px; font-size:0.78rem;}
+
+  /* Greeting banner */
+  .greeting-banner{
+    background:linear-gradient(135deg, var(--midnight) 0%, var(--midnight-soft) 100%);
+    border-radius:var(--radius); padding:30px 34px; margin-bottom:30px; color:var(--ivory);
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;
+    position:relative; overflow:hidden;
+  }
+  .greeting-banner::after{
+    content:''; position:absolute; top:-40%; right:-6%; width:220px; height:220px; border-radius:50%;
+    background:radial-gradient(circle, rgba(200,155,60,0.35) 0%, rgba(200,155,60,0) 70%);
+  }
+  .greeting-banner h1{color:var(--white); font-size:1.9rem; margin-bottom:6px; position:relative;}
+  .greeting-banner p{font-size:0.9rem; color:rgba(250,246,236,0.75); font-weight:300; position:relative;}
+  .greeting-banner .next-service{
+    background:rgba(250,246,236,0.08); border:1px solid rgba(250,246,236,0.18); border-radius:12px;
+    padding:14px 22px; text-align:center; position:relative;
+  }
+  .greeting-banner .next-service .label{font-size:0.66rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold-soft); font-weight:700; margin-bottom:4px;}
+  .greeting-banner .next-service .val{font-family:'Cormorant Garamond', serif; font-size:1.15rem; color:var(--white);}
+
+  /* Flash messages */
+  .flash-stack{margin-bottom:22px; display:flex; flex-direction:column; gap:10px;}
+  .flash{
+    padding:13px 18px; border-radius:10px; font-size:0.86rem; font-weight:500;
+    border:1px solid var(--line); background:var(--white);
+  }
+  .flash.success{border-color:rgba(62,142,90,0.35); background:rgba(62,142,90,0.08); color:var(--success);}
+  .flash.error, .flash.danger{border-color:rgba(178,58,58,0.35); background:rgba(178,58,58,0.08); color:var(--danger);}
+  .flash.info{border-color:rgba(76,110,145,0.35); background:rgba(76,110,145,0.08); color:var(--skyline);}
+
+  /* Stat cards */
+  .stat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-bottom:34px;}
+  .stat-card{
+    background:var(--white); border:1px solid var(--line); border-radius:var(--radius); padding:24px;
+  }
+  .stat-card .top{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px;}
+  .stat-card .icon{
+    width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+    background:rgba(200,155,60,0.12); color:var(--gold); font-size:1rem;
+  }
+  .stat-card .change{font-size:0.74rem; font-weight:700; color:var(--success);}
+  .stat-card .change.zero{color:var(--muted);}
+  .stat-card .value{font-family:'Cormorant Garamond', serif; font-size:2rem; color:var(--midnight);}
+  .stat-card .label{font-size:0.82rem; color:var(--muted); margin-top:4px;}
+
+  /* Quick actions */
+  .quick-actions{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:34px;}
+  .qa-card{
+    background:var(--white); border:1px dashed var(--line); border-radius:var(--radius); padding:20px;
+    display:flex; flex-direction:column; gap:10px; transition:border-color .2s ease, transform .2s ease;
+  }
+  .qa-card:hover{border-color:var(--gold); border-style:solid; transform:translateY(-3px);}
+  .qa-card .icon{font-size:1.3rem;}
+  .qa-card h4{font-size:1rem; color:var(--midnight); font-family:'Work Sans'; font-weight:600;}
+  .qa-card span{font-size:0.78rem; color:var(--muted);}
+
+  /* Panels */
+  .panel-grid{display:grid; grid-template-columns:1.4fr 1fr; gap:22px;}
+  .panel{background:var(--white); border:1px solid var(--line); border-radius:var(--radius); padding:26px;}
+  .panel-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;}
+  .panel-head h3{font-size:1.2rem;}
+  .panel-head a{font-size:0.8rem; color:var(--skyline); font-weight:600; cursor:pointer;}
+  .panel-foot{margin-top:18px; text-align:center;}
+  .panel-foot a{
+    display:inline-block; font-size:0.82rem; font-weight:700; color:var(--gold);
+    border:1px solid var(--line); padding:9px 22px; border-radius:30px; transition:all .2s ease;
+  }
+  .panel-foot a:hover{background:var(--midnight); color:var(--ivory); border-color:var(--midnight);}
+
+  table{width:100%; border-collapse:collapse; font-size:0.86rem;}
+  th{text-align:left; color:var(--muted); font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; padding-bottom:12px; border-bottom:1px solid var(--line);}
+  td{padding:14px 10px 14px 0; border-bottom:1px solid var(--line); vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+  .badge{padding:4px 12px; border-radius:20px; font-size:0.72rem; font-weight:700;}
+  .badge.Sermon{background:rgba(76,110,145,0.14); color:var(--skyline);}
+  .badge.Announcement{background:rgba(200,155,60,0.15); color:#a97e28;}
+  .badge.Gallery{background:rgba(62,142,90,0.12); color:var(--success);}
+  .row-actions{display:flex; gap:8px; flex-wrap:nowrap;}
+  .row-thumb{width:44px; height:44px; border-radius:8px; object-fit:cover; background:linear-gradient(140deg,#25396a,#0F1B33);}
+  .cell-title{font-weight:600; color:var(--midnight);}
+  .empty-row{color:var(--muted); font-style:italic; padding:22px 0; text-align:center;}
+
+  .activity-item{display:flex; gap:14px; padding:14px 0; border-bottom:1px solid var(--line);}
+  .activity-item:last-child{border-bottom:none;}
+  .activity-dot{width:8px; height:8px; border-radius:50%; background:var(--gold); margin-top:6px; flex-shrink:0;}
+  .activity-item h5{font-size:0.88rem; font-weight:600; color:var(--midnight);}
+  .activity-item span{font-size:0.76rem; color:var(--muted);}
+
+  /* Gallery preview strip */
+  .media-strip{display:grid; grid-template-columns:repeat(6,1fr); gap:12px; margin-top:4px;}
+  .media-tile{aspect-ratio:1/1; border-radius:10px; overflow:hidden; background:linear-gradient(140deg,#25396a,#0F1B33); position:relative; cursor:pointer;}
+  .media-tile img{width:100%; height:100%; object-fit:cover;}
+  .media-tile .cap{
+    position:absolute; bottom:0; left:0; right:0; padding:6px 8px; font-size:0.68rem; color:var(--ivory);
+    background:linear-gradient(0deg, rgba(15,27,51,0.85), rgba(15,27,51,0)); font-weight:600;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .media-tile.add{
+    background:var(--ivory); border:1.5px dashed var(--line); display:flex; align-items:center; justify-content:center;
+    color:var(--muted); font-size:1.4rem;
+  }
+  .media-tile.add:hover{border-color:var(--gold); color:var(--gold);}
+
+  /* Sections (tab panels) */
+  .admin-section{display:none;}
+  .admin-section.active{display:block;}
+
+  @media (max-width: 1100px){
+    .stat-grid, .quick-actions{grid-template-columns:repeat(2,1fr);}
+    .panel-grid{grid-template-columns:1fr;}
+    .media-strip{grid-template-columns:repeat(3,1fr);}
+  }
+  .admin-menu-toggle{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px;}
+  .admin-menu-toggle span{width:22px; height:2px; background:var(--midnight); display:block;}
+  .sidebar-overlay{display:none;}
+
+  @media (max-width: 760px){
+    .sidebar{
+      position:fixed; left:0; top:0; z-index:200; transform:translateX(-100%);
+      transition:transform .25s ease; box-shadow:0 0 40px rgba(0,0,0,0.3);
+    }
+    .sidebar.open{transform:translateX(0);}
+    .admin-menu-toggle{display:flex;}
+    .sidebar-overlay.open{display:block; position:fixed; inset:0; background:rgba(15,27,51,0.5); z-index:199;}
+    .search{width:150px;}
+    table{font-size:0.78rem;}
+    .greeting-banner{flex-direction:column; align-items:flex-start;}
+  }
+
+  /* Modals (pop-up forms and detail views) */
+  .modal-overlay{
+    display:none; position:fixed; inset:0; z-index:500;
+    background:rgba(15,27,51,0.65); backdrop-filter:blur(3px);
+    align-items:center; justify-content:center; padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    background:var(--white); border-radius:16px; max-width:600px; width:100%;
+    max-height:88vh; overflow-y:auto; position:relative; box-shadow:0 30px 80px rgba(15,27,51,0.35);
+    padding:44px 36px 36px;
+  }
+  .modal-close{
+    position:absolute; top:16px; right:16px; width:36px; height:36px; border-radius:50%;
+    border:1px solid var(--line); background:var(--ivory); font-size:1.1rem; color:var(--midnight);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; line-height:1;
+  }
+  .modal-close:hover{background:var(--midnight); color:var(--white); border-color:var(--midnight);}
+  .modal-eyebrow{font-size:0.72rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:10px;}
+  .modal-box h3{font-size:1.5rem; margin-bottom:20px;}
+  .modal-box p{color:#4a4d57; line-height:1.7; margin-bottom:12px; font-size:0.94rem;}
+  .modal-box img, .modal-box video{width:100%; border-radius:10px; margin-bottom:16px;}
+  .form-row{margin-bottom:18px;}
+  .form-row label{display:block; font-size:0.82rem; font-weight:600; margin-bottom:7px; color:var(--midnight);}
+  .form-row input[type=text], .form-row input[type=email], .form-row input[type=file], .form-row input[type=date],
+  .form-row select, .form-row textarea{
+    width:100%; padding:11px 14px; border:1px solid var(--line); border-radius:8px;
+    background:var(--ivory); font-family:inherit; font-size:0.9rem; color:var(--ink);
+  }
+  .form-row textarea{min-height:110px; resize:vertical;}
+  .form-hint{font-size:0.76rem; color:var(--muted); margin-top:5px;}
+  .form-error{color:var(--danger); font-size:0.78rem; margin-top:5px;}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <span class="star"><svg viewBox="0 0 24 24" fill="#E4C77A" width="16" height="16"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+    St. Michael Admin
+  </div>
+
+  <div class="nav-group">
+    <div class="label">Overview</div>
+    <div class="nav-item active" data-target="section-dashboard"><span class="dot"></span> Dashboard</div>
+  </div>
+
+  <div class="nav-group">
+    <div class="label">Content</div>
+    <div class="nav-item" data-target="section-announcements"><span class="dot"></span> Announcements</div>
+    <div class="nav-item" data-target="section-sermons"><span class="dot"></span> Sermons</div>
+    <div class="nav-item" data-target="section-gallery"><span class="dot"></span> Gallery &amp; Media</div>
+    <div class="nav-item" data-target="section-resources"><span class="dot"></span> Resources &amp; Forms</div>
+  </div>
+
+  <div class="nav-group">
+    <div class="label">Church</div>
+    <div class="nav-item" data-target="section-prayer"><span class="dot"></span> Prayer Requests</div>
+    <div class="nav-item" data-target="section-members"><span class="dot"></span> Member Registration</div>
+    <div class="nav-item" data-target="section-youth"><span class="dot"></span> Youth Registration</div>
+  </div>
+
+  <div class="sidebar-foot">
+    Logged in as<br><strong style="color:var(--white);">{{ session.admin_name or 'Church Admin' }}</strong><br>
+    <a href="{{ url_for('admin_logout') }}">Sign out</a>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <button class="admin-menu-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    <div class="search">Search content, media, requests…</div>
+    <div class="topbar-right">
+      <button class="icon-btn" aria-label="Notifications">&#128276;</button>
+      <div class="profile">
+        <div class="avatar">
+          {% if session.admin_picture %}
+            <img src="{{ session.admin_picture }}" alt="{{ session.admin_name }}">
+          {% endif %}
+        </div>
+        <div>
+          <div class="name">{{ session.admin_name or 'Church Admin' }}</div>
+          <div class="role">Saint Michael Parish</div>
+        </div>
+        <a class="logout-link" href="{{ url_for('admin_logout') }}">Sign out</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <div class="flash-stack">
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- ============ DASHBOARD ============ -->
+    <section class="admin-section active" id="section-dashboard">
+
+      <div class="greeting-banner">
+        <div>
+          <h1>
+            {% set hour = current_hour|default(12) %}
+            {% if hour < 12 %}Good morning{% elif hour < 17 %}Good afternoon{% else %}Good evening{% endif %},
+            {{ (session.admin_name.split(' ')[0]) if session.admin_name else 'Admin' }} &#128075;
+          </h1>
+          <p>Here's what's happening across the parish today.</p>
+        </div>
+        <div class="next-service">
+          <div class="label">Next Sunday Service</div>
+          <div class="val">{{ next_sunday.strftime('%B %d') if next_sunday else '—' }} &middot; 10:00 AM</div>
+        </div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="top">
+            <div class="icon">&#128591;</div>
+            <div class="change {{ 'zero' if not stats.prayer_requests_week }}">+{{ stats.prayer_requests_week }} this week</div>
+          </div>
+          <div class="value">{{ stats.prayer_requests }}</div>
+          <div class="label">Prayer Requests</div>
+        </div>
+        <div class="stat-card">
+          <div class="top">
+            <div class="icon">&#127909;</div>
+            <div class="change {{ 'zero' if not stats.sermons_week }}">+{{ stats.sermons_week }} this week</div>
+          </div>
+          <div class="value">{{ stats.sermons }}</div>
+          <div class="label">Sermons Published</div>
+        </div>
+        <div class="stat-card">
+          <div class="top">
+            <div class="icon">&#128247;</div>
+            <div class="change {{ 'zero' if not stats.gallery_week }}">+{{ stats.gallery_week }} this week</div>
+          </div>
+          <div class="value">{{ stats.gallery_items }}</div>
+          <div class="label">Gallery Items</div>
+        </div>
+        <div class="stat-card">
+          <div class="top">
+            <div class="icon">&#128227;</div>
+            <div class="change {{ 'zero' if not stats.announcements_week }}">+{{ stats.announcements_week }} this week</div>
+          </div>
+          <div class="value">{{ stats.announcements }}</div>
+          <div class="label">Announcements</div>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <div class="qa-card" data-open-modal="announcementModal"><span class="icon">&#128227;</span><h4>Post Announcement</h4><span>Share news with the parish</span></div>
+        <div class="qa-card" data-open-modal="sermonModal"><span class="icon">&#127908;</span><h4>Add Sermon</h4><span>Upload a sermon video</span></div>
+        <div class="qa-card" data-open-modal="galleryModal"><span class="icon">&#128247;</span><h4>Upload to Gallery</h4><span>Add one or more photos</span></div>
+        <div class="qa-card" data-open-modal="resourceModal"><span class="icon">&#128196;</span><h4>Add Resource</h4><span>Forms, manuals, policies</span></div>
+      </div>
+
+      <div class="panel-grid">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Recent Content</h3>
+          </div>
+          <table>
+            <thead><tr><th>Title</th><th>Type</th><th>Date</th></tr></thead>
+            <tbody>
+              {% for row in recent_content %}
+              <tr>
+                <td class="cell-title">{{ row.title }}</td>
+                <td><span class="badge {{ row.type }}">{{ row.type }}</span></td>
+                <td>{{ row.date.strftime('%b %d, %Y') if row.date else '—' }}</td>
+              </tr>
+              {% else %}
+              <tr><td colspan="3" class="empty-row">Nothing posted yet.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% if total_content and total_content > (recent_content|length) %}
+          <div class="panel-foot"><a href="{{ url_for('admin_recent_activity') }}">See more &rarr;</a></div>
+          {% endif %}
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Recent Activity</h3>
+          </div>
+          {% for act in activities %}
+          <div class="activity-item">
+            <div class="activity-dot"></div>
+            <div><h5>{{ act.action }}</h5><span>{{ act.timestamp|timesince }}</span></div>
+          </div>
+          {% else %}
+          <div class="empty-row">No activity recorded yet.</div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:22px;">
+        <div class="panel-head">
+          <h3>Gallery &amp; Media</h3>
+          <a data-goto-tab="section-gallery">Manage all</a>
+        </div>
+        <div class="media-strip">
+          {% for item in gallery_items[:5] %}
+          <div class="media-tile" data-open-modal="galleryView{{ item.id }}">
+            <img src="{{ url_for('static', filename='uploads/' ~ item.image) }}" alt="{{ item.title }}">
+            <div class="cap">{{ item.title }}</div>
+          </div>
+          {% endfor %}
+          <div class="media-tile add" data-open-modal="galleryModal">+</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ANNOUNCEMENTS ============ -->
+    <section class="admin-section" id="section-announcements">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">Content</div>
+          <h1>Announcements</h1>
+        </div>
+        <button class="btn btn-primary" data-open-modal="announcementModal">+ New Announcement</button>
+      </div>
+
+      <div class="panel">
+        <table>
+          <thead><tr><th>Announcement</th><th>Posted</th><th></th></tr></thead>
+          <tbody>
+            {% for item in announcements %}
+            <tr>
+              <td class="cell-title">{{ item.announcement[:80] }}{% if item.announcement|length > 80 %}…{% endif %}</td>
+              <td>{{ item.timestamp.strftime('%b %d, %Y, %I:%M %p') if item.timestamp else '—' }}</td>
+              <td>
+                <div class="row-actions">
+                  <button class="btn btn-outline btn-sm" data-open-modal="announceView{{ item.id }}">View</button>
+                  <form method="POST" action="{{ url_for('delete_announcement', id=item.id) }}" onsubmit="return confirm('Delete this announcement?');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="3" class="empty-row">No announcements posted yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ SERMONS ============ -->
+    <section class="admin-section" id="section-sermons">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">Content</div>
+          <h1>Sermons</h1>
+        </div>
+        <button class="btn btn-primary" data-open-modal="sermonModal">+ New Sermon</button>
+      </div>
+
+      <div class="panel">
+        <table>
+          <thead><tr><th>Topic</th><th>Day</th><th>Duration</th><th>Date</th><th></th></tr></thead>
+          <tbody>
+            {% for item in sermons %}
+            <tr>
+              <td class="cell-title">{{ item.topic }}</td>
+              <td>{{ item.day }}</td>
+              <td>{{ item.duration }}</td>
+              <td>{{ item.date.strftime('%b %d, %Y') if item.date else '—' }}</td>
+              <td>
+                <div class="row-actions">
+                  <button class="btn btn-outline btn-sm" data-open-modal="sermonView{{ item.id }}">View</button>
+                  <form method="POST" action="{{ url_for('delete_sermon', id=item.id) }}" onsubmit="return confirm('Delete this sermon?');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="empty-row">No sermons uploaded yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ GALLERY ============ -->
+    <section class="admin-section" id="section-gallery">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">Content</div>
+          <h1>Gallery &amp; Media</h1>
+        </div>
+        <button class="btn btn-primary" data-open-modal="galleryModal">+ Upload Images</button>
+      </div>
+
+      <div class="panel">
+        <table>
+          <thead><tr><th></th><th>Title</th><th>Category</th><th>Uploaded</th><th></th></tr></thead>
+          <tbody>
+            {% for item in gallery_items %}
+            <tr>
+              <td><img class="row-thumb" src="{{ url_for('static', filename='uploads/' ~ item.image) }}" alt="{{ item.title }}"></td>
+              <td class="cell-title">{{ item.title }}</td>
+              <td>{{ item.category or '—' }}</td>
+              <td>{{ item.upload_date.strftime('%b %d, %Y') if item.upload_date else '—' }}</td>
+              <td>
+                <div class="row-actions">
+                  <button class="btn btn-outline btn-sm" data-open-modal="galleryView{{ item.id }}">View</button>
+                  <form method="POST" action="{{ url_for('delete_gallery', id=item.id) }}" onsubmit="return confirm('Remove this image?');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="empty-row">No images uploaded yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ RESOURCES ============ -->
+    <section class="admin-section" id="section-resources">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">Content</div>
+          <h1>Resources &amp; Forms</h1>
+        </div>
+        <button class="btn btn-primary" data-open-modal="resourceModal">+ Add Resource</button>
+      </div>
+
+      <div class="panel">
+        <table>
+          <thead><tr><th>Title</th><th>Category</th><th>Uploaded</th><th></th></tr></thead>
+          <tbody>
+            {% for item in resources %}
+            <tr>
+              <td class="cell-title">{{ item.title }}</td>
+              <td>{{ item.category }}</td>
+              <td>{{ item.upload_date.strftime('%b %d, %Y') if item.upload_date else '—' }}</td>
+              <td>
+                <div class="row-actions">
+                  <a class="btn btn-outline btn-sm" href="{{ url_for('static', filename='uploads/' ~ item.file) }}" target="_blank">View</a>
+                  <form method="POST" action="{{ url_for('delete_resource', id=item.id) }}" onsubmit="return confirm('Remove this resource?');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4" class="empty-row">No resources uploaded yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ PRAYER REQUESTS ============ -->
+    <section class="admin-section" id="section-prayer">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">Church</div>
+          <h1>Prayer Requests</h1>
+        </div>
+      </div>
+
+      <div class="panel">
+        <table>
+          <thead><tr><th>Name</th><th>Email</th><th>Submitted</th><th></th></tr></thead>
+          <tbody>
+            {% for item in prayer_requests %}
+            <tr>
+              <td class="cell-title">{{ item.name }}</td>
+              <td>{{ item.email }}</td>
+              <td>{{ item.date_submitted|timesince if item.date_submitted else '—' }}</td>
+              <td>
+                <div class="row-actions">
+                  <button class="btn btn-outline btn-sm" data-open-modal="prayerView{{ item.id }}">View</button>
+                  <form method="POST" action="{{ url_for('delete_prayer_request', id=item.id) }}" onsubmit="return confirm('Delete this prayer request?');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4" class="empty-row">No prayer requests yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ MEMBER REGISTRATION ============ -->
+    <section class="admin-section" id="section-members">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">Church</div>
+          <h1>Member Registration</h1>
+        </div>
+      </div>
+
+      <div class="panel">
+        <table>
+          <thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Registered</th><th></th></tr></thead>
+          <tbody>
+            {% for item in members %}
+            <tr>
+              <td class="cell-title">{{ item.first_name }} {{ item.last_name }}</td>
+              <td>{{ item.phone }}</td>
+              <td>{{ item.email or '—' }}</td>
+              <td>{{ item.registration_date.strftime('%b %d, %Y') if item.registration_date else '—' }}</td>
+              <td>
+                <div class="row-actions">
+                  <button class="btn btn-outline btn-sm" data-open-modal="memberView{{ item.id }}">View</button>
+                  <form method="POST" action="{{ url_for('delete_member', id=item.id) }}" onsubmit="return confirm('Delete this member registration?');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="empty-row">No member registrations yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ YOUTH REGISTRATION ============ -->
+    <section class="admin-section" id="section-youth">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">Church</div>
+          <h1>Youth Registration</h1>
+        </div>
+      </div>
+
+      <div class="panel">
+        <table>
+          <thead><tr><th>Name</th><th>Age</th><th>Phone</th><th>Registered</th><th></th></tr></thead>
+          <tbody>
+            {% for item in youths %}
+            <tr>
+              <td class="cell-title">{{ item.first_name }} {{ item.last_name }}</td>
+              <td>{{ item.age }}</td>
+              <td>{{ item.phone }}</td>
+              <td>{{ item.date_registered.strftime('%b %d, %Y') if item.date_registered else '—' }}</td>
+              <td>
+                <div class="row-actions">
+                  <button class="btn btn-outline btn-sm" data-open-modal="youthView{{ item.id }}">View</button>
+                  <form method="POST" action="{{ url_for('delete_youth', id=item.id) }}" onsubmit="return confirm('Delete this youth registration?');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="empty-row">No youth registrations yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- ================= FORM MODALS ================= -->
+
+<div class="modal-overlay" id="announcementModal">
+  <div class="modal-box">
+    <button class="modal-close" data-close-modal>&times;</button>
+    <div class="modal-eyebrow">New Post</div>
+    <h3>Post Announcement</h3>
+    <form method="POST" action="{{ url_for('announcements_form') }}">
+      {{ announcement_form.hidden_tag() }}
+      <div class="form-row">
+        {{ announcement_form.announcement.label }}
+        {{ announcement_form.announcement() }}
+        {% for error in announcement_form.announcement.errors %}<div class="form-error">{{ error }}</div>{% endfor %}
+      </div>
+      {{ announcement_form.post(class_="btn btn-primary") }}
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="sermonModal">
+  <div class="modal-box">
+    <button class="modal-close" data-close-modal>&times;</button>
+    <div class="modal-eyebrow">New Post</div>
+    <h3>Add Sermon</h3>
+    <form method="POST" action="{{ url_for('sermon_form') }}" enctype="multipart/form-data">
+      {{ sermon_form.hidden_tag() }}
+      <div class="form-row">
+        {{ sermon_form.topic.label }} {{ sermon_form.topic() }}
+        {% for error in sermon_form.topic.errors %}<div class="form-error">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="form-row">
+        {{ sermon_form.day.label }} {{ sermon_form.day() }}
+        {% for error in sermon_form.day.errors %}<div class="form-error">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="form-row">
+        {{ sermon_form.duration.label }} {{ sermon_form.duration() }}
+        {% for error in sermon_form.duration.errors %}<div class="form-error">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="form-row">
+        {{ sermon_form.video.label }} {{ sermon_form.video() }}
+        {% for error in sermon_form.video.errors %}<div class="form-error">{{ error }}</div>{% endfor %}
+      </div>
+      {{ sermon_form.post(class_="btn btn-primary") }}
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="galleryModal">
+  <div class="modal-box">
+    <button class="modal-close" data-close-modal>&times;</button>
+    <div class="modal-eyebrow">New Post</div>
+    <h3>Upload to Gallery</h3>
+    <form method="POST" action="{{ url_for('gallery_form') }}" enctype="multipart/form-data">
+      {{ gallery_form_obj.hidden_tag() }}
+      <div class="form-row">
+        {{ gallery_form_obj.title.label }} {{ gallery_form_obj.title() }}
+        {% for error in gallery_form_obj.title.errors %}<div class="form-error">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="form-row">
+        {{ gallery_form_obj.category.label }} {{ gallery_form_obj.category() }}
+        {% for error in gallery_form_obj.category.errors %}<div class="form-error">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="form-row">
+        {{ gallery_form_obj.event_date.label }} {{ gallery_form_obj.event_date() }}
+        <div class="form-hint">Optional — leave blank to use today's date.</div>
+      </div>
+      <div class="form-row">
+        {{ gallery_form_obj.image.label }}
+        <input type="file" name="image" accept=".jpg,.jpeg,.png,.webp" multiple>
+        <div class="form-hint">Select as many photos as you like — they'll all be tagged under the same title and category.</div>
+        {% for error in gallery_form_obj.image.errors %}<div class="form-error">{{ error }}</div>{% endfor %}
+      </div>
+      {{ gallery_form_obj.submit(class_="btn btn-primary") }}
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="resourceModal">
+  <div class="modal-box">
+    <button class="modal-close" data-close-modal>&times;</button>
+    <div class="modal-eyebrow">New Post</div>
+    <h3>Add Resource</h3>
+    <form method="POST" action="{{ url_for('resource_form') }}" enctype="multipart/form-data">
+      {{ resource_form.hidden_tag() }}
+      <div class="form-row">
+        {{ resource_form.title.label }} {{ resource_form.title() }}
+        {% for error in resource_form.title.errors %}<div class="form-error">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="form-row">
+        {{ resource_form.category.label }} {{ resource_form.category() }}
+        {% for error in resource_form.category.errors %}<div class="form-error">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="form-row">
+        {{ resource_form.file.label }} {{ resource_form.file() }}
+        {% for error in resource_form.file.errors %}<div class="form-error">{{ error }}</div>{% endfor %}
+      </div>
+      {{ resource_form.submit(class_="btn btn-primary") }}
+    </form>
+  </div>
+</div>
+
+<!-- ================= DETAIL (VIEW) MODALS ================= -->
+
+{% for item in announcements %}
+<div class="modal-overlay" id="announceView{{ item.id }}">
+  <div class="modal-box">
+    <button class="modal-close" data-close-modal>&times;</button>
+    <div class="modal-eyebrow">Announcement</div>
+    <h3>{{ item.timestamp.strftime('%b %d, %Y, %I:%M %p') if item.timestamp else '' }}</h3>
+    <p>{{ item.announcement }}</p>
+  </div>
+</div>
+{% endfor %}
+
+{% for item in sermons %}
+<div class="modal-overlay" id="sermonView{{ item.id }}">
+  <div class="modal-box">
+    <button class="modal-close" data-close-modal>&times;</button>
+    <div class="modal-eyebrow">Sermon</div>
+    <h3>{{ item.topic }}</h3>
+    <video controls src="{{ url_for('static', filename='uploads/sermons/' ~ item.video) }}"></video>
+    <p><strong>Day:</strong> {{ item.day }}</p>
+    <p><strong>Duration:</strong> {{ item.duration }}</p>
+    <p><strong>Posted:</strong> {{ item.date.strftime('%b %d, %Y') if item.date else '—' }}</p>
+  </div>
+</div>
+{% endfor %}
+
+{% for item in gallery_items %}
+<div class="modal-overlay" id="galleryView{{ item.id }}">
+  <div class="modal-box">
+    <button class="modal-close" data-close-modal>&times;</button>
+    <div class="modal-eyebrow">Gallery</div>
+    <h3>{{ item.title }}</h3>
+    <img src="{{ url_for('static', filename='uploads/' ~ item.image) }}" alt="{{ item.title }}">
+    <p><strong>Category:</strong> {{ item.category or '—' }}</p>
+    <p><strong>Uploaded:</strong> {{ item.upload_date.strftime('%b %d, %Y') if item.upload_date else '—' }}</p>
+  </div>
+</div>
+{% endfor %}
+
+{% for item in prayer_requests %}
+<div class="modal-overlay" id="prayerView{{ item.id }}">
+  <div class="modal-box">
+    <button class="modal-close" data-close-modal>&times;</button>
+    <div class="modal-eyebrow">Prayer Request</div>
+    <h3>{{ item.name }}</h3>
+    <p><strong>Email:</strong> {{ item.email }}</p>
+    <p><strong>Submitted:</strong> {{ item.date_submitted.strftime('%b %d, %Y, %I:%M %p') if item.date_submitted else '—' }}</p>
+    <p style="margin-top:16px; white-space:pre-wrap;">{{ item.prayer }}</p>
+  </div>
+</div>
+{% endfor %}
+
+{% for item in members %}
+<div class="modal-overlay" id="memberView{{ item.id }}">
+  <div class="modal-box">
+    <button class="modal-close" data-close-modal>&times;</button>
+    <div class="modal-eyebrow">Member Registration</div>
+    <h3>{{ item.first_name }} {{ item.last_name }}{% if item.other_name %} {{ item.other_name }}{% endif %}</h3>
+    <p><strong>Gender:</strong> {{ item.gender or '—' }}</p>
+    <p><strong>Date of Birth:</strong> {{ item.date_of_birth.strftime('%b %d, %Y') if item.date_of_birth else '—' }}</p>
+    <p><strong>Marital Status:</strong> {{ item.marital_status or '—' }}</p>
+    <p><strong>Phone:</strong> {{ item.phone }}{% if item.alternate_phone %} &middot; Alt: {{ item.alternate_phone }}{% endif %}</p>
+    <p><strong>Email:</strong> {{ item.email or '—' }}</p>
+    <p><strong>Address:</strong> {{ item.address }}</p>
+    <p><strong>Occupation:</strong> {{ item.occupation or '—' }}{% if item.place_of_work %} at {{ item.place_of_work }}{% endif %}</p>
+    <p><strong>Invited By:</strong> {{ item.invited_by or '—' }}</p>
+    <p><strong>First Time Visit:</strong> {{ 'Yes' if item.first_time_visit else 'No' }}</p>
+    <p><strong>Born Again:</strong> {{ 'Yes' if item.born_again else 'No' }} &middot; <strong>Baptized:</strong> {{ 'Yes' if item.baptized else 'No' }}</p>
+    <p><strong>Department of Interest:</strong> {{ item.department_of_interest or '—' }}</p>
+    {% if item.prayer_request %}<p><strong>Prayer Request:</strong> {{ item.prayer_request }}</p>{% endif %}
+    <p><strong>Emergency Contact:</strong> {{ item.emergency_contact_name or '—' }}{% if item.emergency_contact_phone %} &middot; {{ item.emergency_contact_phone }}{% endif %}</p>
+    <p><strong>Registered:</strong> {{ item.registration_date.strftime('%b %d, %Y, %I:%M %p') if item.registration_date else '—' }}</p>
+  </div>
+</div>
+{% endfor %}
+
+{% for item in youths %}
+<div class="modal-overlay" id="youthView{{ item.id }}">
+  <div class="modal-box">
+    <button class="modal-close" data-close-modal>&times;</button>
+    <div class="modal-eyebrow">Youth Registration</div>
+    <h3>{{ item.first_name }} {{ item.last_name }}{% if item.other_name %} {{ item.other_name }}{% endif %}</h3>
+    <p><strong>Gender:</strong> {{ item.gender }} &middot; <strong>Age:</strong> {{ item.age }}</p>
+    <p><strong>Date of Birth:</strong> {{ item.date_of_birth.strftime('%b %d, %Y') if item.date_of_birth else '—' }}</p>
+    <p><strong>Marital Status:</strong> {{ item.marital_status }}</p>
+    <p><strong>Phone:</strong> {{ item.phone }}</p>
+    <p><strong>Email:</strong> {{ item.email or '—' }}</p>
+    <p><strong>Address:</strong> {{ item.address }}</p>
+    <p><strong>Occupation:</strong> {{ item.occupation or '—' }}</p>
+    <p><strong>School:</strong> {{ item.school or '—' }}</p>
+    <p><strong>Department:</strong> {{ item.department or '—' }}</p>
+    <p><strong>Emergency Contact:</strong> {{ item.emergency_contact_name or '—' }}{% if item.emergency_contact_phone %} &middot; {{ item.emergency_contact_phone }}{% endif %}</p>
+    <p><strong>Registered:</strong> {{ item.date_registered.strftime('%b %d, %Y, %I:%M %p') if item.date_registered else '—' }}</p>
+  </div>
+</div>
+{% endfor %}
+
+<script>
+  // Sidebar tab switching
+  function activateTab(target){
+    document.querySelectorAll('.nav-item[data-target]').forEach(i=>i.classList.remove('active'));
+    const navItem = document.querySelector('.nav-item[data-target="'+target+'"]');
+    if(navItem) navItem.classList.add('active');
+    document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
+    const section = document.getElementById(target);
+    if(section) section.classList.add('active');
+  }
+  document.querySelectorAll('.nav-item[data-target]').forEach(item=>{
+    item.addEventListener('click', ()=>{
+      activateTab(item.dataset.target);
+      if (window.innerWidth <= 760) closeAdminSidebar();
+    });
+  });
+  document.querySelectorAll('[data-goto-tab]').forEach(el=>{
+    el.addEventListener('click', ()=> activateTab(el.dataset.gotoTab));
+  });
+
+  // Modal open/close
+  document.querySelectorAll('[data-open-modal]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const modal = document.getElementById(el.dataset.openModal);
+      if (modal) modal.classList.add('open');
+    });
+  });
+  document.querySelectorAll('[data-close-modal]').forEach(el=>{
+    el.addEventListener('click', ()=> el.closest('.modal-overlay').classList.remove('open'));
+  });
+  document.querySelectorAll('.modal-overlay').forEach(m=>{
+    m.addEventListener('click', e=>{ if(e.target === m) m.classList.remove('open'); });
+  });
+  document.addEventListener('keydown', e=>{
+    if(e.key === 'Escape'){
+      document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open'));
+    }
+  });
+
+  // Reopen the relevant modal after a form-handling route redirects back here
+  {% if open_modal %}
+    document.getElementById('{{ open_modal }}')?.classList.add('open');
+  {% endif %}
+
+  // Mobile sidebar
+  const aToggle = document.querySelector('.admin-menu-toggle');
+  const aSidebar = document.querySelector('.sidebar');
+  const aOverlay = document.getElementById('sidebarOverlay');
+  function closeAdminSidebar(){ aSidebar.classList.remove('open'); aOverlay.classList.remove('open'); }
+  if(aToggle){
+    aToggle.addEventListener('click', ()=>{
+      aSidebar.classList.toggle('open');
+      aOverlay.classList.toggle('open');
+    });
+  }
+  if(aOverlay){ aOverlay.addEventListener('click', closeAdminSidebar); }
+</script>
+
+</body>
+</html>

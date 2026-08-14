@@ -436,7 +436,7 @@ textarea.form-control{
     </a>
     <div class="nav-links">
       <a href="#">Home</a>
-      <a href="{{url_for('about')}}" target="_blank">About</a>
+      <a href="{{url_for('about')}}" target="_blank">About Us</a>
       <a href="{{url_for('worship')}}">Worship</a>
       <a href="{{url_for('sermons')}}">Sermons</a>
       <a href="{{url_for('gallery')}}">Gallery</a>
@@ -456,7 +456,7 @@ textarea.form-control{
     <h1>A light for the parish, <em>a home</em> for the faithful</h1>
     <p class="lead">Saint Michael Parish welcomes you to worship, prayer, and fellowship rooted in the Aladura tradition — in spirit and in truth.</p>
     <div class="hero-actions">
-      <a href="{{url_for('worship')}}" class="btn btn-primary">Worship with us</a>
+      <a href="{{url_for('youth_registration')}}" class="btn btn-primary">Register As Youth</a>
         <a href="{{url_for('prayer_request')}}" class="btn btn-primary">Prayer Request</a>
       <a href="#register" class="btn btn-ghost">Register as Member</a>
     </div>
@@ -475,7 +475,9 @@ textarea.form-control{
   <div class="wrap about-grid">
     <div class="about-media">
       <span class="frame-star star"><svg viewBox="0 0 24 24" fill="#E4C77A"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
-      <div class="placeholder-text">Congregation photo — white sutana, service in progress</div>
+      <div class="placeholder-text">
+          <img src="../static/images/WhatsApp Image 2026-08-08 at 11.34.26 AM.jpeg">
+      </div>
     </div>
     <div>
       <div class="eyebrow">Who we are</div>
@@ -529,28 +531,32 @@ textarea.form-control{
       <h2>Sermons &amp; Devotionals</h2>
     </div>
     <div class="ministry-grid">
-      <div class="sermon-feature">
-        <span class="tag">Live This Sunday</span>
-        <div class="info">
-          <h3>Walking in the Light</h3>
-          <p>Join our Sunday service live, or catch up on the message afterward from the archive.</p>
-        </div>
-      </div>
-      <div class="sermon-list">
-        <div class="sermon-row">
-          <div class="play">▶</div>
-          <div><h4>Faith Under Trial</h4><span>Midweek Service · 32 min</span></div>
-        </div>
-        <div class="sermon-row">
-          <div class="play">▶</div>
-          <div><h4>The Foundational Blueprint</h4><span>Sunday Service · 41 min</span></div>
-        </div>
-        <div class="sermon-row">
-          <div class="play">▶</div>
-          <div><h4>Prayer as a Way of Life</h4><span>Sunday Service · 38 min</span></div>
-        </div>
-        <a href="{{url_for('sermons')}}" class="btn btn-dark" style="align-self:flex-start;">Browse All Sermons</a>
-      </div>
+  {% if recent_sermons %}
+  {% set featured = recent_sermons[0] %}
+  <a href="{{ url_for('sermons', q=featured.topic) }}" class="sermon-feature" style="text-decoration:none;">
+    <span class="tag">{{ featured.day }}</span>
+    <div class="info">
+      <h3>{{ featured.topic }}</h3>
+      <p>{{ featured.duration }} &middot; {{ featured.date.strftime('%B %d, %Y') if featured.date else '' }}</p>
+    </div>
+  </a>
+  <div class="sermon-list">
+    {% for item in recent_sermons[1:4] %}
+    <a href="{{ url_for('sermons', q=item.topic) }}" class="sermon-row" style="text-decoration:none;">
+      <div class="play">▶</div>
+      <div><h4>{{ item.topic }}</h4><span>{{ item.day }} &middot; {{ item.duration }}</span></div>
+    </a>
+    {% endfor %}
+    <a href="{{ url_for('sermons') }}" class="btn btn-dark" style="align-self:flex-start;">
+      {% if sermon_total > 4 %}View More Sermons{% else %}Browse All Sermons{% endif %}
+    </a>
+  </div>
+  {% else %}
+  <div class="sermon-feature">
+    <div class="info"><h3>No sermons yet</h3><p>Check back soon for our latest messages.</p></div>
+  </div>
+  {% endif %}
+</div>
     </div>
   </div>
 </section>
@@ -572,58 +578,25 @@ textarea.form-control{
       <h2>Gallery</h2>
     </div>
     <div class="gallery-grid">
-      <div class="g-item">Sunday Service</div>
-      <div class="g-item">Choir</div>
-      <div class="g-item">Baptism</div>
-      <div class="g-item">Harvest</div>
-      <div class="g-item">Youth Fellowship</div>
-      <div class="g-item">Watchnight</div>
+      {% for item in gallery_items %}
+      <div class="g-item">
+        <img src="{{ url_for('static', filename='uploads/' ~ item.image) }}" alt="{{ item.title }}"
+             style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0;">
+      </div>
+      {% else %}
+      <div class="g-item">No photos yet</div>
+      {% endfor %}
     </div>
+    {% if gallery_total > 6 %}
+    <div style="text-align:center; margin-top:34px;">
+      <a href="{{ url_for('gallery') }}" class="btn btn-dark">View More Photos</a>
+    </div>
+    {% endif %}
   </div>
 </section>
 
-<section class="patriarchs" id="patriarchs">
-  <div class="wrap">
-    <div class="section-head center">
-      <div class="divider"><span class="line"></span><span class="eyebrow" style="margin:0;">Honouring Those Who Went Before</span><span class="line"></span></div>
-      <h2>The Legendary Patriarchs and Heroes of the Past</h2>
-    </div>
-    <div class="patriarchs-grid">
-      <div class="patriarch-card">
-        <div class="img-ph">
-            <img src="../static/images/WhatsApp Image 2026-08-02 at 10.48.47 .jpeg" alt="baba bada">
-        </div>
-        <div class="caption"><h4>Alexander Abiodun Adebayo Bada </h4>
-            <span> Second Pastor and Supreme Head.</span></div>
-      </div>
-      <div class="patriarch-card">
-        <div class="img-ph">
-            <img src="../static/images/ajose.jpeg" alt="ajose">
-        </div>
-        <div class="caption"><h4>Philip Hunsu Ajose .</h4><span>Third Pastor and spiritual leader</span></div>
-      </div>
-      <div class="patriarch-card">
-        <div class="img-ph">
-            <img src="../static/images/ajanlekoko.jpeg" alt="ajanlekoko" >
-        </div>
-        <div class="caption"><h4>Superior Evangelist Samuel Olatunji Ajanlekoko .</h4><span>(Baba Ajanlekoko)</span></div>
-      </div>
-      <div class="patriarch-card">
-        <div class="img-ph">
-            <img src="../static/images/WhatsApp Image 2026-08-02 at 10.48.47 PM.jpeg">
-        </div>
-        <div class="caption"><h4>Superior Evangelist Paul Suru Maforikan .</h4><span>(Baba Maforikan)</span></div>
-      </div>
 
-        <div class="patriarch-card">
-        <div class="img-ph">
-            <img src="../static/images/WhatsApp Image 2026-08-02 at 10.48.48 PM.jpeg">
-        </div>
-        <div class="caption"><h4>Rev pro Beni Omoge .</h4><span>(Baba Omoge)</span></div>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 <section class="giving" id="give">
   <div class="wrap">
@@ -641,7 +614,7 @@ textarea.form-control{
         <a href="{{url_for('give')}}" class="btn btn-primary">Give Now</a>
       </div>
       <div class="giving-visual">
-        <span class="star"><svg viewBox="0 0 24 24" fill="#0F1B33"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+          <img src="../static/images/church_image_6.jpeg">
       </div>
     </div>
   </div>
@@ -654,22 +627,24 @@ textarea.form-control{
       <h2>Announcements &amp; Events</h2>
     </div>
     <div class="announce-grid">
+      {% for item in recent_announcements %}
       <div class="announce-card">
-        <div class="date">Aug 3, 2026</div>
-        <h4>Annual Harvest &amp; Thanksgiving</h4>
-        <p>Join us as we celebrate God's faithfulness with a full weekend of services and fellowship.</p>
+        <div class="date">{{ item.timestamp.strftime('%b %d, %Y') if item.timestamp else '' }}</div>
+        <h4>{{ item.announcement[:60] }}{% if item.announcement|length > 60 %}&hellip;{% endif %}</h4>
+        <p>{{ item.announcement }}</p>
       </div>
+      {% else %}
       <div class="announce-card">
-        <div class="date"> 2026</div>
-        <h4>New Member Registration</h4>
-        <p>Register your membership profile after service in the church office or online.</p>
+        <h4>No announcements yet</h4>
+        <p>Check back soon for parish news and events.</p>
       </div>
-      <div class="announce-card">
-        <div class="date"> 2026</div>
-        <h4>Youth Fellowship Meeting</h4>
-        <p>All young members are invited for fellowship, prayer, and planning.</p>
-      </div>
+      {% endfor %}
     </div>
+    {% if announcement_total > 3 %}
+    <div style="text-align:center; margin-top:34px;">
+      <a href="{{ url_for('announcements') }}" class="btn btn-dark">View More Announcements</a>
+    </div>
+    {% endif %}
   </div>
 </section>
 

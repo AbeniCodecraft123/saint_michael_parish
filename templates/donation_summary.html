@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donation Summary — Celestial Church of Christ, Saint Michael Parish</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+    --ivory:#FAF6EC; --midnight:#0F1B33; --gold:#C89B3C; --gold-soft:#E4C77A;
+    --skyline:#4C6E91; --ink:#20222A; --white:#FFFFFF; --line: rgba(15,27,51,0.12);
+    --shadow: 0 20px 50px rgba(15,27,51,0.12); --radius: 14px;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:'Work Sans', sans-serif; color:var(--ink); background:var(--ivory); line-height:1.6;}
+a{color:inherit; text-decoration:none;}
+h1,h2,h3{font-family:'Cormorant Garamond', serif; font-weight:600; color:var(--midnight);}
+.wrap{max-width:1160px; margin:0 auto; padding:0 28px;}
+.eyebrow{font-size:0.72rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold-soft); font-weight:600; display:flex; align-items:center; justify-content:center; gap:10px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--gold-soft);}
+
+header{position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(250,246,236,0.88); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+.nav{display:flex; align-items:center; justify-content:space-between; padding:16px 28px; max-width:1160px; margin:0 auto;}
+.brand{display:flex; align-items:center; gap:12px;}
+.brand .star svg{width:14px; height:14px;}
+.brand .star svg path{fill:var(--gold);}
+.brand-text{display:flex; flex-direction:column; line-height:1.05;}
+.brand-text .brand-eyebrow{font-size:0.6rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); font-weight:700;}
+.brand-text .brand-name{font-family:'Cormorant Garamond', serif; font-size:1.45rem; font-weight:700; color:var(--midnight);}
+.nav-cta{background:var(--midnight); color:var(--ivory); padding:10px 22px; border-radius:30px; font-size:0.85rem; font-weight:600;}
+
+.summary-hero{
+    background:linear-gradient(160deg,#152a4d, var(--midnight)); color:var(--ivory);
+    padding:170px 0 90px; text-align:center;
+}
+.summary-hero h1{color:var(--white); font-size:clamp(2.2rem,5vw,3.2rem); margin-top:16px;}
+
+.summary-panel{
+    max-width:560px; margin:-50px auto 90px; position:relative; z-index:3;
+    background:var(--white); border-radius:20px; padding:44px; box-shadow:var(--shadow);
+}
+.status-badge{
+    display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:30px;
+    font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:24px;
+}
+.status-badge.successful{background:#eaf7ea; color:#155724;}
+.status-badge.pending{background:#fff8e1; color:#8a6d1f;}
+.status-badge.failed, .status-badge.cancelled{background:#fdeaea; color:#721c24;}
+
+.detail-row{
+    display:flex; justify-content:space-between; padding:16px 0; border-bottom:1px solid var(--line);
+    font-size:0.92rem;
+}
+.detail-row:last-of-type{border-bottom:none;}
+.detail-row span:first-child{color:#5a5d67;}
+.detail-row span:last-child{font-weight:600; color:var(--midnight);}
+
+.btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%;
+    padding:14px 30px; border-radius:30px; font-size:0.92rem; font-weight:600; margin-top:28px;
+}
+.btn-primary{background:var(--gold); color:var(--midnight);}
+.btn-ghost{border:1px solid var(--line); color:var(--midnight); margin-top:12px;}
+
+footer{background:var(--midnight); color:rgba(250,246,236,0.7); padding:40px 0; text-align:center; font-size:0.82rem;}
+</style>
+</head>
+<body>
+<header>
+  <nav class="nav">
+    <a href="{{ url_for('index') }}" class="brand">
+      <span class="star"><svg viewBox="0 0 24 24"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+      <div class="brand-text">
+        <span class="brand-eyebrow">Celestial Church of Christ</span>
+        <span class="brand-name">Saint Michael Parish</span>
+      </div>
+    </a>
+    <a href="{{ url_for('give') }}" class="nav-cta">Give</a>
+  </nav>
+</header>
+
+<section class="summary-hero">
+  <div class="wrap">
+    <div class="eyebrow">Give &rsaquo; Donation Summary</div>
+    <h1>Your Donation</h1>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="summary-panel">
+
+    <span class="status-badge {{ donation.status }}">
+      {% if donation.status == 'successful' %}✓ Payment Successful
+      {% elif donation.status == 'pending' %}⏳ Payment Pending
+      {% elif donation.status == 'failed' %}✕ Payment Failed
+      {% elif donation.status == 'cancelled' %}✕ Payment Cancelled
+      {% else %}{{ donation.status|capitalize }}
+      {% endif %}
+    </span>
+
+    <div class="detail-row">
+      <span>Reference</span>
+      <span>{{ donation.reference }}</span>
+    </div>
+    <div class="detail-row">
+      <span>Donor</span>
+      <span>{{ donation.full_name }}</span>
+    </div>
+    <div class="detail-row">
+      <span>Type</span>
+      <span>{{ donation.donation_type|replace('_',' ')|capitalize }}</span>
+    </div>
+    <div class="detail-row">
+      <span>Amount</span>
+      <span>₦{{ "{:,.2f}".format(donation.amount) }}</span>
+    </div>
+    {% if donation.opay_transaction_id %}
+    <div class="detail-row">
+      <span>Transaction ID</span>
+      <span>{{ donation.opay_transaction_id }}</span>
+    </div>
+    {% endif %}
+    <div class="detail-row">
+      <span>Date</span>
+      <span>{{ donation.created_at.strftime('%d %b %Y, %I:%M %p') }}</span>
+    </div>
+
+    {% if donation.status == 'successful' %}
+      <p style="margin-top:24px; color:#5a5d67; font-size:0.9rem;">Thank you for your generosity. A confirmation has been sent to {{ donation.email }}.</p>
+    {% elif donation.status == 'pending' %}
+      <p style="margin-top:24px; color:#5a5d67; font-size:0.9rem;">We're still confirming this payment with OPay. Refresh this page in a moment, or check back shortly.</p>
+      <a href="{{ url_for('donation_summary', reference=donation.reference) }}" class="btn btn-ghost">Refresh Status</a>
+    {% else %}
+      <p style="margin-top:24px; color:#5a5d67; font-size:0.9rem;">Something went wrong with this payment. You can try again below.</p>
+      <a href="{{ url_for('give') }}" class="btn btn-primary">Try Again</a>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}" class="btn btn-ghost" style="{% if donation.status == 'successful' %}margin-top:12px;{% endif %}">&larr; Back to Homepage</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">&copy; 2026 Celestial Church of Christ, Saint Michael Parish. All rights reserved.</div>
+</footer>
+</body>
+</html>

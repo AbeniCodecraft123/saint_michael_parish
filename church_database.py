@@ -25,6 +25,7 @@ class Prayer_Request(db.Model):
     name = db.Column(db.String)
     email = db.Column(db.String)
     prayer = db.Column(db.String)
+    date_submitted = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __init__(self, name, email, prayer):
         self.name = name
@@ -119,7 +120,6 @@ class Announcement(db.Model):
         }
 
 class AnnouncementForm(FlaskForm):
-    timestamp = TimeField('Timestamp', validators=[DataRequired()])
     announcement = TextAreaField('Announcement', validators=[DataRequired()])
     post = SubmitField('Post')
 
@@ -338,7 +338,9 @@ class NewMemberForm(FlaskForm):
             ("Children", "Children"),
             ("Evangelism", "Evangelism"),
             ("Prayer", "Prayer"),
-            ("Sanctuary", "Sanctuary")
+            ("Sanctuary", "Sanctuary"),
+            ("None", "Not Yet")
+
         ],
         validators=[Optional()]
     )
@@ -554,46 +556,37 @@ class Gallery(db.Model):
     __tablename__ = "gallery"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(150), nullable=False)
+    category = db.Column(db.String(100))
+    event_date = db.Column(db.Date)
     image = db.Column(db.String(255), nullable=False)
-    upload_date = db.Column(db.DateTime,default=datetime.utcnow)
+    upload_date = db.Column(db.DateTime, default=datetime.utcnow)
 
-    def __init__(self, title, image):
+    def __init__(self, title, image, category=None, event_date=None):
         self.title = title
         self.image = image
+        self.category = category
+        self.event_date = event_date
 
     def __repr__(self):
         return f"<Gallery {self.title}>"
 
-    def obj_to_dict(self):
-        return {
-            "id": self.id,
-            "title": self.title,
-            "image": self.image,
-            "upload_date": self.upload_date.strftime("%Y-%m-%d %H:%M:%S")
-            if self.upload_date else None
-        }
 
 class GalleryForm(FlaskForm):
-    title = StringField(
-        "Title",
-        validators=[
-            DataRequired(),
-            Length(max=150)
-        ]
-    )
-
-    image = FileField(
-        "Image",
-        validators=[
-            FileRequired(),
-            FileAllowed(
-                ["jpg", "jpeg", "png", "webp"],
-                "Images only!"
-            )
-        ]
-    )
-
-    submit = SubmitField("Upload Image")
+    title = StringField("Title", validators=[DataRequired(), Length(max=150)])
+    category = SelectField("Category", choices=[
+        ("Sunday Service", "Sunday Service"),
+        ("Wednesday Service", "Wednesday Service"),
+        ("Harvest & Thanksgiving", "Harvest & Thanksgiving"),
+        ("Baptism", "Baptism"),
+        ("Wedding", "Wedding"),
+        ("Youth Programme", "Youth Programme"),
+        ("Choir", "Choir"),
+        ("Outreach & Evangelism", "Outreach & Evangelism"),
+        ("Other", "Other"),
+    ], validators=[DataRequired()])
+    event_date = DateField("Date of Event", format="%Y-%m-%d", validators=[Optional()])
+    image = FileField("Images", render_kw={"multiple": True})
+    submit = SubmitField("Upload Images")
 
 
 
@@ -675,3 +668,50 @@ class ContactMessage(db.Model):
             "message": self.message,
             "date_sent": self.date_sent.strftime("%Y-%m-%d %H:%M:%S")
         }
+
+class ActivityLog(db.Model):
+    __tablename__ = 'activity_log'
+    id = db.Column(db.Integer, primary_key=True)
+    action = db.Column(db.String(255), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __init__(self, action):
+        self.action = action
+
+    @staticmethod
+    def log(text):
+        db.session.add(ActivityLog(text))
+        db.session.commit()
+
+
+class Resource(db.Model):
+    __tablename__ = 'resources'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    category = db.Column(db.String(100))
+    file = db.Column(db.String(255), nullable=False)
+    upload_date = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __init__(self, title, category, file):
+        self.title = title
+        self.category = category
+        self.file = file
+
+    def obj_to_dict(self):
+        return {
+            "id": self.id, "title": self.title, "category": self.category,
+            "file": self.file,
+            "upload_date": self.upload_date.strftime("%Y-%m-%d %H:%M:%S") if self.upload_date else None
+        }
+
+
+class ResourceForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired(), Length(max=200)])
+    category = SelectField(
+        "Category",
+        choices=[("Forms", "Forms"), ("Manuals", "Manuals"),
+                 ("Policies", "Policies"), ("Publications", "Publications")],
+        validators=[DataRequired()]
+    )
+    file = FileField("File", validators=[FileRequired(), FileAllowed(["pdf", "doc", "docx"], "PDF/Word only")])
+    submit = SubmitField("Upload Resource")

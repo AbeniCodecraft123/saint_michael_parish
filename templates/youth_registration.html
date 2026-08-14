@@ -1,0 +1,372 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Youth Registration | CCC Saint Michael Parish</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f6f8;
+            color: #222;
+        }
+
+        .registration-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .registration-card {
+            background: #fff;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .registration-header h1 {
+            margin-bottom: 8px;
+            font-size: 30px;
+        }
+
+        .registration-header p {
+            color: #666;
+            margin: 0;
+        }
+
+        .section-title {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #eee;
+            font-size: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            margin-bottom: 7px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d5d5d5;
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #555;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 30px;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            background: #222;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        .flash {
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+
+        .flash.success {
+            background: #dff5e5;
+            color: #176b32;
+        }
+
+        .flash.danger {
+            background: #fde2e2;
+            color: #9b1c1c;
+        }
+
+        .error {
+            color: #c62828;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 650px) {
+            .registration-container {
+                margin: 20px auto;
+                padding: 12px;
+            }
+
+            .registration-card {
+                padding: 22px 18px;
+            }
+
+            .registration-header h1 {
+                font-size: 24px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="registration-container">
+
+    <div class="registration-card">
+
+        <div class="registration-header">
+            <h1>Youth Registration</h1>
+            <p>CCC Saint Michael Parish</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+
+            {{ form.hidden_tag() }}
+
+            <h2 class="section-title">Personal Information</h2>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    {{ form.first_name.label }}
+                    {{ form.first_name(placeholder="Enter first name") }}
+
+                    {% for error in form.first_name.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.last_name.label }}
+                    {{ form.last_name(placeholder="Enter last name") }}
+
+                    {% for error in form.last_name.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.other_name.label }}
+                    {{ form.other_name(placeholder="Enter other name") }}
+
+                    {% for error in form.other_name.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.gender.label }}
+                    {{ form.gender }}
+
+                    {% for error in form.gender.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.date_of_birth.label }}
+                    {{ form.date_of_birth }}
+
+                    {% for error in form.date_of_birth.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.age.label }}
+                    {{ form.age(placeholder="Enter age") }}
+
+                    {% for error in form.age.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.marital_status.label }}
+                    {{ form.marital_status }}
+
+                    {% for error in form.marital_status.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+
+            <h2 class="section-title">Contact Information</h2>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    {{ form.phone.label }}
+                    {{ form.phone(placeholder="e.g. 08012345678") }}
+
+                    {% for error in form.phone.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.email.label }}
+                    {{ form.email(placeholder="example@email.com") }}
+
+                    {% for error in form.email.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group full">
+                    {{ form.address.label }}
+                    {{ form.address(placeholder="Enter residential address") }}
+
+                    {% for error in form.address.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+
+            <h2 class="section-title">Education & Occupation</h2>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    {{ form.school.label }}
+                    {{ form.school(placeholder="Name of school") }}
+
+                    {% for error in form.school.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.occupation.label }}
+                    {{ form.occupation(placeholder="Occupation") }}
+
+                    {% for error in form.occupation.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.department.label }}
+                    {{ form.department(placeholder="Church department") }}
+
+                    {% for error in form.department.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+
+            <h2 class="section-title">Emergency Contact</h2>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    {{ form.emergency_contact_name.label }}
+                    {{ form.emergency_contact_name(
+                        placeholder="Emergency contact name"
+                    ) }}
+
+                    {% for error in form.emergency_contact_name.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.emergency_contact_phone.label }}
+                    {{ form.emergency_contact_phone(
+                        placeholder="Emergency contact phone"
+                    ) }}
+
+                    {% for error in form.emergency_contact_phone.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+
+            {{ form.submit(
+                class="submit-btn",
+                value="Complete Youth Registration"
+            ) }}
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+```

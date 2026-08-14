@@ -475,6 +475,27 @@
     display:block;
 }
 
+/* Patriarchs & Heroes */
+.patriarchs{background:var(--white); border-top:1px solid var(--line);}
+.patriarchs-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:22px;}
+.patriarch-card{border-radius:var(--radius); overflow:hidden; border:1px solid var(--line); background:var(--ivory); transition:transform .3s ease, box-shadow .3s ease;}
+.patriarch-card:hover{transform:translateY(-4px); box-shadow:var(--shadow);}
+.patriarch-card .img-ph{
+  aspect-ratio:3/4; background:linear-gradient(140deg,#25396a,#0F1B33);
+  display:flex; align-items:center; justify-content:center;
+  color:rgba(250,246,236,0.45); font-size:0.72rem; text-align:center; padding:14px;
+}
+.patriarch-card .caption{padding:16px; text-align:center;}
+.patriarch-card .caption h4{font-size:1.02rem; margin-bottom:4px;}
+.patriarch-card .caption span{font-size:0.76rem; color:#8a8d97; letter-spacing:0.02em;}
+
+@media (max-width:900px){
+  .patriarchs-grid{grid-template-columns:repeat(2,1fr);}
+  .form-grid{grid-template-columns:1fr;}
+  .register-card{padding:32px 24px;}
+}
+
+
 @media (max-width: 600px){
   .modal-overlay{padding:0;}
   .modal-box{
@@ -500,15 +521,17 @@
       <a href="{{url_for('index')}}">Home</a>
         <div class="dropdown">
         <a href="{{url_for('about')}}" class="dropbtn">
-            About ▾
+            About us ▾
         </a>
         <div class="dropdown-menu">
-            <a href="{{url_for('about')}}#founder">Founder</a>
-            <a href="{{url_for('about')}}#shepherd">The Shepherd</a>
+            <a href="{{url_for('about')}}#patriarchs">Past Legend</a>
+            <a href="{{url_for('about')}}#current">Present Legend</a>
+            <a href="{{url_for('about')}}#founder">Founder and the shepherd</a>
+            <a href="{{url_for('about')}}#wife">shepherd's wife</a>
             <a href="{{url_for('about')}}#church">The Church</a>
-            <a href="{{url_for('about')}}#core-values">Core Values</a>
+            <a href="{{url_for('about')}}#core-values">Our Core Values</a>
             <a href="{{url_for('about')}}#church-tenets">Church Tenets</a>
-            <a href="{{url_for('about')}}#departments">Departments</a>
+            <a href="{{url_for('about')}}#departments">Organogram and Structure</a>
             <a href="{{url_for('about')}}#sacraments">Sacraments & Rites</a>
             <a href="{{url_for('about')}}#church-use-requirements">Church Use</a>
             <a href="{{url_for('about')}}#governance">Governance</a>
@@ -534,36 +557,79 @@
   </div>
 </section>
 
+<section class="patriarchs" id="patriarchs">
+  <div class="wrap">
+    <div class="section-head center">
+      <div class="divider"><span class="line"></span><span class="eyebrow" style="margin:0;">Honouring Those Who Went Before</span><span class="line"></span></div>
+      <h2>The Legendary Patriarchs and Heroes of the Past</h2>
+    </div>
+    <div class="patriarchs-grid">
+      <div class="patriarch-card">
+        <div class="img-ph">
+            <img src="../static/images/WhatsApp Image 2026-08-02 at 10.48.47 .jpeg" alt="baba bada">
+        </div>
+        <div class="caption"><h4>Alexander Abiodun Adebayo Bada </h4>
+            <span> Second Pastor and Supreme Head.</span></div>
+      </div>
+      <div class="patriarch-card">
+        <div class="img-ph">
+            <img src="../static/images/ajose.jpeg" alt="ajose">
+        </div>
+        <div class="caption"><h4>Philip Hunsu Ajose .</h4><span>Third Pastor and spiritual leader</span></div>
+      </div>
+      <div class="patriarch-card">
+        <div class="img-ph">
+            <img src="../static/images/ajanlekoko.jpeg" alt="ajanlekoko" >
+        </div>
+        <div class="caption"><h4>Superior Evangelist Samuel Olatunji Ajanlekoko .</h4><span>(Baba Ajanlekoko)</span></div>
+      </div>
+      <div class="patriarch-card">
+        <div class="img-ph">
+            <img src="../static/images/WhatsApp Image 2026-08-02 at 10.48.47 PM.jpeg">
+        </div>
+        <div class="caption"><h4>Superior Evangelist Paul Suru Maforikan .</h4><span>(Baba Maforikan)</span></div>
+      </div>
 
-<section class="inner-section" id="founder" >
-  <div class="wrap two-col">
-    <div class="lead-media">
-<img src="../static/images/download.webp" alt="Founder Image">    </div>
-    <div class="text-block">
-      <div class="eyebrow">The founder</div>
-      <h3>Samuel Bilewu Joseph Oshoffa</h3>
-      <p>The Celestial Church of Christ (CCC) was founded on September 29, 1947, in Porto Novo, Benin,
-          by Reverend Pastor Prophet Samuel Bilehou Joseph Oshoffa following a divine revelation.
-          Founding and Divine Revelation
-          The CCC was established by Samuel Oshoffa, a former carpenter born in 1909 in French Dahomey (now Benin).
-          Oshoffa, originally raised as a Methodist, claimed to have received a divine revelation on May 23, 1947,
-          during a solar eclipse while lost in a forest.
-          He felt called to pray, heal the sick, and raise the dead,
-          dedicating his life to spiritual ministry.
-          Following this experience,
-          he founded the church on September 29, 1947, in Porto Novo, Benin,
-          asserting that it came into the world by divine order
-      </p>
-
+        <div class="patriarch-card">
+        <div class="img-ph">
+            <img src="../static/images/WhatsApp Image 2026-08-02 at 10.48.48 PM.jpeg">
+        </div>
+        <div class="caption"><h4>Rev pro Beni Omoge .</h4><span>(Baba Omoge)</span></div>
+      </div>
     </div>
   </div>
 </section>
 
 
-<section class="inner-section" style="background-color:white" id="shepherd">
+<section class="patriarchs" id="current-heroes" style="background:var(--white); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head center">
+      <div class="divider"><span class="line"></span><span class="eyebrow" style="margin:0;">Carrying The Vision Forward</span><span class="line"></span></div>
+      <h2>The Current Heroes</h2>
+    </div>
+    <div class="patriarchs-grid" style="grid-template-columns:repeat(2,1fr); max-width:520px; margin:0 auto;">
+      <div class="patriarch-card">
+        <div class="img-ph">
+            <img src="../static/images/rev_lawal.jpeg">
+        </div>
+        <div class="caption"><h4>RT. REV. Victor Lawal</h4><span></span></div>
+      </div>
+      <div class="patriarch-card">
+        <div class="img-ph">
+            <img src="../static/images/baba_olufowora.jpeg">
+        </div>
+        <div class="caption"><h4>Rev. Pro. David Abiodun Olufowora</h4><span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="inner-section" style="background-color:white" id="founder">
   <div class="wrap two-col">
     <div class="lead-media">
-        <img src="../static/images/CCCSHEPERD.jpg" alt="oluso">
+        <img src="../static/images/WhatsApp Image 2026-08-08 at 11.34.27 AM.jpeg" alt="oluso">
     </div>
     <div class="text-block">
       <div class="eyebrow">The Shepherd</div>
@@ -573,11 +639,29 @@
 </p>
   </div>
 </section>
+
+<section class="inner-section" style="background-color:white" id="wife">
+  <div class="wrap two-col">
+    <div class="lead-media">
+        <img src="../static/images/oluso_wife.jpeg" alt="oluso">
+    </div>
+    <div class="text-block">
+      <div class="eyebrow">The Shepherd's Wife</div>
+<h3>PROPHETESS MONSURAT ABOLANLE OLUFOWORA</h3>
+<p>Born into the family of Alhaji Saubana and Mrs. Juwebat Oseni in Abeokuta, Ogun State, Nigeria,
+    in a devoted Muslim home.
+    She began her educational journey in Ogun State,
+    completing both her primary and secondary education in Ishagamu Town
+  <a href="#" class="btn btn-dark" style="margin-top:34px;" data-modal="wife-bio">Read More....</a>
+</p>
+  </div>
+</section>
 <br>
 
 <section class="inner-section"  id="church">
   <div class="wrap two-col">
-    <div class="lead-media">church image
+    <div class="lead-media">
+        <img src="../static/images/church_image_5.jpeg">
     </div>
     <div class="text-block">
       <div class="eyebrow">The church</div>
@@ -591,21 +675,8 @@
       To be a Christ-centered and Spirit-filled parish committed to raising a holy, disciplined, and prayerful
       people, empowered to fulfill their divine purpose and reflect the glory of God in all nations..</p>
       <br>
-       <h3>Vision</h3>
-      <p>To be a Christ-centered and Spirit-filled parish committed to raising a holy,
-        disciplined, and prayerful people, empowered to fulfill their divine purpose and
-        reflect the glory of God in all nations.</p>
-      <h3>Mission</h3>
-      <p>Our mission shall be to preach the undiluted Word of God, uphold the doctrines of the Celestial Church
-        of Christ, and foster a life of holiness, love, and obedience among members through dedication to
-        <p>* Wining souls for Christ through evangelism and outreach programs.</p>
-        <p>* Building a strong spiritual foundation through prayers, prophetic guidance, and the teaching of God's
-        Word.</p>
-       <p> * Nurturing believers to grow in faith, righteousness, and spiritual discipline.</p>
-        <p>* Creating an atmosphere where divine instructions are received, obeyed, and manifested.</p>
-       <p> * Empowering youths and members to serve God faithfully and impact their communities positively.
-        Through the help of the Holy Spirit, we strive to be a beacon of light, hope, and salvation to all.</p>
-      </p>
+        <a href="#" class="btn btn-dark" style="margin-top:34px;" data-modal="church-bio">Read More....</a>
+
     </div>
   </div>
 </section>
@@ -676,45 +747,41 @@ earth, burning altar lights, and using incense, holy water, and perfume </li>
   <div class="wrap">
     <div class="section-head center">
       <div class="divider"><span class="line"></span><span class="eyebrow" style="margin:0;">Parish Structure</span><span class="line"></span></div>
-      <h2>Leadership &amp; Departments</h2>
+      <h2>Organogram &amp; Functions</h2>
     </div>
     <div class="people-grid">
+      <div class="people-card"><div class="people-avatar"></div>
+          <h4>The Board</h4><span>Policies &amp; Oversight</span></div>
       <div class="people-card">
           <div class="people-avatar">
               <img src="../static/images/CCCSHEPERD.jpg" alt="oluso">
           </div>
-          <h4>The Founder</h4><span>Spiritual Vision &amp; Direction</span></div>
-      <div class="people-card"><div class="people-avatar"></div>
-          <h4>The Board</h4><span>Policy &amp; Oversight</span></div>
-      <div class="people-card"><div class="people-avatar">
-          <img src="../static/images/CCCSHEPERD.jpg" alt="oluso">
-      </div>
-          <h4>The Shepherd</h4><span>Parish Leadership</span></div>
-      <div class="people-card"><div class="people-avatar"></div><h4>The Secretary</h4><span>Secretariat, Minute Clinic, Protection House, Security</span></div>
+          <h4>The Shepherd</h4><span>Spiritual Vision, Direction &amp; Leadership</span></div>
+      <div class="people-card"><div class="people-avatar"></div><h4>Secretary</h4><span>Secretariat</span></div>
       <div class="people-card"><div class="people-avatar"></div><h4>Elders</h4><span>Spiritual Oversight</span></div>
-      <div class="people-card"><div class="people-avatar"></div><h4>Clergies</h4><span>Ministerial Service</span></div>
-      <div class="people-card"><div class="people-avatar"></div><h4>Women Affairs Ministry</h4><span>Catering, Supermarket</span></div>
+      <div class="people-card"><div class="people-avatar"></div><h4>Clergies</h4><span>Ministerial Services</span></div>
+      <div class="people-card">
+          <div class="people-avatar">
+              <img src="../static/images/WhatsApp Image 2026-08-04 at 4.41.16 PM.jpeg" alt="mama">
+          </div><h4>Women Affairs Ministry</h4><span>Building Godly Families</span></div>
       <div class="people-card">
           <div class="people-avatar">
               <img src="../static/images/WhatsApp Image 2026-08-04 at 4.35.04 PM.jpeg" alt="woman">
-          </div><h4>Finance Department</h4><span>Accounts &amp; Audit Units</span></div>
-      <div class="people-card"><div class="people-avatar">
-          <img src="../static/images/WhatsApp Image 2026-08-04 at 10.08.05 AM.jpeg" alt="oba">
-      </div><h4>Choir Patron and Member Board of Trustees</h4><span>Music &amp; Worship</span></div>
+          </div><h4>Finance</h4><span>Account &amp; Audit</span></div>
+      <div class="people-card">
+          <div class="people-avatar">
+              <img src="../static/images/WhatsApp Image 2026-08-04 at 10.08.05 AM.jpeg" alt="oba">
+          </div><h4>Choir</h4><span>Sacred Inspirations</span></div>
       <div class="people-card"><div class="people-avatar"></div><h4>Prophetic Ministry</h4><span>Prophetic Service</span></div>
       <div class="people-card"><div class="people-avatar"></div><h4>Sidemen &amp; Women (Onibode)</h4><span>Ushering &amp; Order</span></div>
       <div class="people-card"><div class="people-avatar"></div><h4>Youths Department</h4><span>Youth Fellowship</span></div>
       <div class="people-card"><div class="people-avatar"></div><h4>Media &amp; Maintenance</h4><span>Media, Facilities</span></div>
       <div class="people-card"><div class="people-avatar"></div><h4>Sunday School</h4><span>Christian Education</span></div>
       <div class="people-card"><div class="people-avatar"></div><h4>Global Blessed Crusader</h4><span>Evangelism &amp; Missions</span></div>
-      <div class="people-card">
-          <div class="people-avatar">
-              <img src="../static/images/WhatsApp Image 2026-08-04 at 4.41.16 PM.jpeg" alt="mama">
-          </div><h4>Chief Patroness and Life Member Board of Trustess</h4><span>The Church's Heartbeat</span></div>
+      <div class="people-card"><div class="people-avatar"></div><h4>Chief Patroness and Life Member Board of Trustees</h4><span>The Church's Heartbeat</span></div>
     </div>
   </div>
 </section>
-
 <section class="inner-section" id="sacraments">
   <div class="wrap">
     <div class="section-head center">
@@ -896,6 +963,8 @@ the Christian hope of resurrection.
     <div class="footer-bottom">
       <span>&copy; 2026 Celestial Church of Christ, Global Blessed Crusader, Saint Michael Parish. All rights reserved.</span>
       <span>Built for the Kingdom.</span>
+        <span>Developed by <a href="https://abenicodecraftportfolio.netlify.app/"> abenicodecraft</a></span>
+
     </div>
   </div>
 </footer>
@@ -1544,6 +1613,9 @@ the Christian hope of resurrection.
           <li>Refusal to comply with disciplinary decisions.</li>
         </ul>`
     },
+
+
+
     "disciplinary-measures": {
       eyebrow: "Church Disciplinary Matters (CDM)",
       title: "Disciplinary Measures",
@@ -1606,8 +1678,99 @@ the Christian hope of resurrection.
     <p>By the grace of God, I became the first Youth Coordinator and the pioneer founder of the Youth Ministry, as well as the Sidemen and Women of Alabukun-fun Blessed Mega Parish. In addition, I was divinely led to gather prophets together to conduct spiritual services within the parish, ensuring that all divine instructions from God were faithfully carried out and put into effect.</p>
     <p>Over time, I experienced spiritual growth and elevation, rising through the ranks to become a Most Superior Evangelist in the Celestial Church of Christ. My journey as a shepherd has not been without challenges. I have encountered moments of love and acceptance, as well as rejection, mockery, and opposition. Yet, through it all, these experiences have strengthened my faith and deepened my resolve, making me grow stronger in the Lord.</p>
     <p>Today, I return all glory to God Almighty, who has made it possible for this long-awaited dream to come to fulfillment. I am grateful for His grace, guidance, and faithfulness throughout my journey.</p>`
-}
+},
+ "wife-bio": {
+  eyebrow: "The Shepherd's Wife",
+  title: "PROPHETESS MONSURAT ABOLANLE OLUFOWORA",
+  html: `<p>*THE SHEPHERD's WIFE PROPHETESS MONSURAT ABOLANLE OLUFOWORA*
+
+Born into the family of Alhaji Saubana and Mrs. Juwebat Oseni in Abeokuta, Ogun State, Nigeria, in a devoted Muslim home. She began her educational journey in Ogun State, completing both her primary and secondary education in Ishagamu Town. She later proceeded to Moshood Abiola Polytechnic, formerly known as Ogun State Polytechnic, where she furthered her education.
+
+Abolanle met her husband, Michael Olusegun Olufowora, and after a long and meaningful relationship, they got married. Together, they later relocated to the United States, where Abolanle continued to pursue her education and career. She studied Special Education at Atlanta College and earned an Associate Degree in Special Education.
+
+Professionally, Abolanle is a dedicated teacher with a passion for working with children with special needs. She began her teaching career with the Early Head Start program under the Clayton County Community Services Authority, where she served as a teacher. She later joined Clayton County Public Schools, where she continues to work as a Special Education teacher.
+
+In addition to her teaching career, Abolanle is also an entrepreneur and the CEO of Bqueens Affordable Mart, where she applies her business skills and entrepreneurial spirit. Her dedication to both education and entrepreneurship demonstrates her versatility, determination, and commitment to creating opportunities for herself and others.
+
+Abolanle is also talented in several creative and practical areas, including fashion designing, bead making, and catering. Her diverse skills reflect her creativity and passion for continuous personal development.
+
+In her family life, Abolanle is happily married to Michael Olufowora, and they are blessed with three wonderful boys. She is a devoted wife, loving mother, dedicated educator, successful entrepreneur, and a woman of faith who continues to strive for personal and professional growth.
+
+Her journey from Abeokuta, Ogun State, to the United States is a testament to her perseverance, hard work, faith, and commitment to education, family, and entrepreneurship. Through the grace of God, she continues to make a positive impact in her family, career, community, and business.
+
+Glory be to God for all He has done in her life.</p>`
+},
+
+'church-bio': {
+    eyebrow: 'The Church',
+    title: 'CCC Saint Michael Parish',
+    html: `
+        <p>
+            The Church is established in line with the extant laws and
+            regulatory provisions of the Federal Government of Nigeria
+            as administered by the Corporate Affairs Commission (CAC)
+            RC No……… and shall be called:
+        </p>
+
+        <h4>
+            CELESTIAL CHURCH OF CHRIST, GLOBAL BLESSED CRUSADER,
+            SAINT MICHAEL PARISH, TOSHO VILLAGE, VIA NLEMO,
+            ABEOKUTA, OGUN STATE, NIGERIA
+        </h4>
+
+        <h4>Vision</h4>
+
+        <p>
+            To be a Christ-centered and Spirit-filled parish committed
+            to raising a holy, disciplined, and prayerful people,
+            empowered to fulfill their divine purpose and reflect the
+            glory of God in all nations.
+        </p>
+
+        <h4>Mission</h4>
+
+        <p>
+            Our mission shall be to preach the undiluted Word of God,
+            uphold the doctrines of the Celestial Church of Christ,
+            and foster a life of holiness, love, and obedience among
+            members through dedication to:
+        </p>
+
+        <ul>
+            <li>
+                Winning souls for Christ through evangelism and
+                outreach programs.
+            </li>
+
+            <li>
+                Building a strong spiritual foundation through prayers,
+                prophetic guidance, and the teaching of God's Word.
+            </li>
+
+            <li>
+                Nurturing believers to grow in faith, righteousness,
+                and spiritual discipline.
+            </li>
+
+            <li>
+                Creating an atmosphere where divine instructions are
+                received, obeyed, and manifested.
+            </li>
+
+            <li>
+                Empowering youths and members to serve God faithfully
+                and impact their communities positively.
+            </li>
+        </ul>
+
+        <p>
+            Through the help of the Holy Spirit, we strive to be a
+            beacon of light, hope, and salvation to all.
+        </p>
+    `
+    },
   };
+
 
 
   const modal = document.getElementById('readMoreModal');

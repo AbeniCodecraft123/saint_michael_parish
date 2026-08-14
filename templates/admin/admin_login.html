@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Sign In — Saint Michael Parish</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#FAF6EC; --midnight:#0F1B33; --gold:#C89B3C; --gold-soft:#E4C77A;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:'Work Sans', sans-serif; color:var(--ivory);
+    background:radial-gradient(ellipse 90% 70% at 50% 10%, #1c2e52 0%, var(--midnight) 55%, #060a16 100%);
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    position:relative; overflow:hidden; padding:24px;
+  }
+  .stars span{
+    position:absolute; width:2px; height:2px; background:var(--gold-soft); border-radius:50%;
+    opacity:0.7; animation:twinkle 4s ease-in-out infinite;
+  }
+  @keyframes twinkle{0%,100%{opacity:0.12;} 50%{opacity:0.9;}}
+  @media (prefers-reduced-motion: reduce){ .stars span{animation:none;} }
+
+  .glow{
+    position:absolute; top:-15%; left:50%; transform:translateX(-50%);
+    width:640px; height:640px; border-radius:50%;
+    background:radial-gradient(circle, rgba(200,155,60,0.28) 0%, rgba(200,155,60,0) 68%);
+  }
+
+  .card{
+    position:relative; z-index:2; max-width:440px; width:100%; text-align:center;
+    background:rgba(15,27,51,0.55); border:1px solid rgba(250,246,236,0.14);
+    border-radius:20px; padding:56px 40px 44px; backdrop-filter:blur(6px);
+    box-shadow:0 30px 90px rgba(0,0,0,0.45);
+  }
+  .star-mark{width:34px; height:34px; margin:0 auto 22px;}
+  .star-mark svg{width:100%; height:100%;}
+  .eyebrow{
+    font-size:0.72rem; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold-soft);
+    font-weight:600; margin-bottom:14px;
+  }
+  h1{
+    font-family:'Cormorant Garamond', serif; font-weight:700; font-size:2.1rem;
+    color:#fff; margin-bottom:10px; line-height:1.15;
+  }
+  h1 em{font-style:italic; color:var(--gold-soft);}
+  p.lead{
+    font-size:0.94rem; color:rgba(250,246,236,0.7); font-weight:300; line-height:1.65;
+    max-width:340px; margin:0 auto 34px;
+  }
+
+  .google-btn{
+    display:flex; align-items:center; justify-content:center; gap:12px;
+    width:100%; padding:15px 22px; border-radius:12px; border:1px solid rgba(250,246,236,0.2);
+    background:var(--ivory); color:#20222A; font-weight:600; font-size:0.95rem;
+    text-decoration:none; transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .google-btn:hover{ transform:translateY(-2px); box-shadow:0 14px 30px rgba(200,155,60,0.25); }
+  .google-btn svg{width:20px; height:20px; flex-shrink:0;}
+
+  .fine-print{
+    margin-top:26px; font-size:0.76rem; color:rgba(250,246,236,0.45); font-weight:300; line-height:1.6;
+  }
+  .flash-box{
+    margin-bottom:22px; padding:12px 16px; border-radius:10px; font-size:0.85rem;
+    background:rgba(178,58,58,0.16); border:1px solid rgba(178,58,58,0.4); color:#f3caca;
+  }
+</style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="stars" id="starField"></div>
+
+  <div class="card">
+    <div class="star-mark">
+      <svg viewBox="0 0 24 24"><path fill="#E4C77A" d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg>
+    </div>
+    <div class="eyebrow">Celestial Church of Christ</div>
+    <h1>Saint Michael Parish<br><em>Admin Portal</em></h1>
+    <p class="lead">This area is reserved for authorized parish administrators. Sign in with your registered Google account to continue.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash-box">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <a class="google-btn" href="{{ url_for('google.login') }}">
+      <svg viewBox="0 0 48 48">
+        <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6.5 29.6 4.5 24 4.5 12.7 4.5 3.5 13.7 3.5 25S12.7 45.5 24 45.5 44.5 36.3 44.5 25c0-1.5-.2-3-.4-4.5z"/>
+        <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.7 18.9 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6.5 29.6 4.5 24 4.5c-7.6 0-14.1 4.3-17.7 10.2z"/>
+        <path fill="#4CAF50" d="M24 45.5c5.5 0 10.4-1.9 14.2-5.1l-6.6-5.4C29.6 36.7 27 37.5 24 37.5c-5.3 0-9.7-3.1-11.3-7.5l-6.6 5.1C9.8 41.2 16.3 45.5 24 45.5z"/>
+        <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-1.1 3.1-3.3 5.6-6.2 7.2l6.6 5.4C39.5 37.4 44.5 31.7 44.5 25c0-1.5-.2-3-.4-4.5z"/>
+      </svg>
+      Sign in with Google
+    </a>
+
+    <div class="fine-print">Only Google accounts registered by the parish office can access this portal. If you believe you should have access, contact the church secretariat.</div>
+  </div>
+
+<script>
+  const field = document.getElementById('starField');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('span');
+    s.style.top = Math.random() * 100 + '%';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.animationDelay = (Math.random() * 4) + 's';
+    field.appendChild(s);
+  }
+</script>
+</body>
+</html>

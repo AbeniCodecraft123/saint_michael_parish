@@ -1,1 +1,29 @@
+# Environment variables
 .env
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Flask
+instance/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploaded/generated media
+static/uploads/
+
+# Large videos
+*.mp4
+*.mov
+*.avi
+*.mkv
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
