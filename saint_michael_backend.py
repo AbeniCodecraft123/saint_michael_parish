@@ -451,6 +451,7 @@ def admin_dashboard():
         gallery_items=Gallery.query.order_by(Gallery.upload_date.desc()).all(),
         resources=Resource.query.order_by(Resource.upload_date.desc()).all(),
         members=NewMember.query.order_by(NewMember.registration_date.desc()).all(),
+        donations=Donation.query.order_by(Donation.created_at.desc()).all(),
         youths=Youth.query.order_by(Youth.date_registered.desc()).all(),
         sermon_form=SermonForm(), announcement_form=AnnouncementForm(),
         gallery_form_obj=GalleryForm(), resource_form=ResourceForm(),
@@ -731,6 +732,108 @@ def timesince(dt):
     return f'{int(days)} day{"s" if days != 1 else ""} ago'
 
 app.jinja_env.filters['timesince'] = timesince
+
+import csv
+import io
+from flask import Response
+
+@app.route('/admin/members/<int:id>/download')
+@admin_required
+def download_member(id):
+    item = NewMember.query.get_or_404(id)
+    lines = [
+        f"Name: {item.first_name} {item.last_name} {item.other_name or ''}".strip(),
+        f"Gender: {item.gender or ''}",
+        f"Date of Birth: {item.date_of_birth or ''}",
+        f"Marital Status: {item.marital_status or ''}",
+        f"Phone: {item.phone or ''}",
+        f"Alternate Phone: {item.alternate_phone or ''}",
+        f"Email: {item.email or ''}",
+        f"Address: {item.address or ''}",
+        f"Occupation: {item.occupation or ''}",
+        f"Place of Work: {item.place_of_work or ''}",
+        f"Invited By: {item.invited_by or ''}",
+        f"First Time Visit: {'Yes' if item.first_time_visit else 'No'}",
+        f"Born Again: {'Yes' if item.born_again else 'No'}",
+        f"Baptized: {'Yes' if item.baptized else 'No'}",
+        f"Department of Interest: {item.department_of_interest or ''}",
+        f"Prayer Request: {item.prayer_request or ''}",
+        f"Emergency Contact: {item.emergency_contact_name or ''} ({item.emergency_contact_phone or ''})",
+        f"Registration Date: {item.registration_date or ''}",
+    ]
+    filename = f"member_{item.last_name}_{item.first_name}.txt".replace(" ", "_")
+    return Response("\n".join(lines), mimetype="text/plain",
+                     headers={"Content-Disposition": f"attachment; filename={filename}"})
+
+
+@app.route('/admin/members/download-all')
+@admin_required
+def download_all_members():
+    members = NewMember.query.order_by(NewMember.registration_date.desc()).all()
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow([
+        "First Name", "Last Name", "Other Name", "Gender", "Date of Birth", "Marital Status",
+        "Phone", "Alternate Phone", "Email", "Address", "Occupation", "Place of Work",
+        "Invited By", "First Time Visit", "Born Again", "Baptized",
+        "Department of Interest", "Prayer Request",
+        "Emergency Contact Name", "Emergency Contact Phone", "Registration Date"
+    ])
+    for m in members:
+        writer.writerow([
+            m.first_name, m.last_name, m.other_name, m.gender, m.date_of_birth, m.marital_status,
+            m.phone, m.alternate_phone, m.email, m.address, m.occupation, m.place_of_work,
+            m.invited_by, m.first_time_visit, m.born_again, m.baptized,
+            m.department_of_interest, m.prayer_request,
+            m.emergency_contact_name, m.emergency_contact_phone, m.registration_date
+        ])
+    return Response(output.getvalue(), mimetype="text/csv",
+                     headers={"Content-Disposition": "attachment; filename=members.csv"})
+
+
+@app.route('/admin/youths/<int:id>/download')
+@admin_required
+def download_youth(id):
+    item = Youth.query.get_or_404(id)
+    lines = [
+        f"Name: {item.first_name} {item.last_name} {item.other_name or ''}".strip(),
+        f"Gender: {item.gender}",
+        f"Age: {item.age}",
+        f"Date of Birth: {item.date_of_birth or ''}",
+        f"Marital Status: {item.marital_status}",
+        f"Phone: {item.phone}",
+        f"Email: {item.email or ''}",
+        f"Address: {item.address}",
+        f"Occupation: {item.occupation or ''}",
+        f"School: {item.school or ''}",
+        f"Department: {item.department or ''}",
+        f"Emergency Contact: {item.emergency_contact_name or ''} ({item.emergency_contact_phone or ''})",
+        f"Registration Date: {item.date_registered or ''}",
+    ]
+    filename = f"youth_{item.last_name}_{item.first_name}.txt".replace(" ", "_")
+    return Response("\n".join(lines), mimetype="text/plain",
+                     headers={"Content-Disposition": f"attachment; filename={filename}"})
+
+
+@app.route('/admin/youths/download-all')
+@admin_required
+def download_all_youths():
+    youths = Youth.query.order_by(Youth.date_registered.desc()).all()
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow([
+        "First Name", "Last Name", "Other Name", "Gender", "Age", "Date of Birth",
+        "Marital Status", "Phone", "Email", "Address", "Occupation", "School", "Department",
+        "Emergency Contact Name", "Emergency Contact Phone", "Registration Date"
+    ])
+    for y in youths:
+        writer.writerow([
+            y.first_name, y.last_name, y.other_name, y.gender, y.age, y.date_of_birth,
+            y.marital_status, y.phone, y.email, y.address, y.occupation, y.school, y.department,
+            y.emergency_contact_name, y.emergency_contact_phone, y.date_registered
+        ])
+    return Response(output.getvalue(), mimetype="text/csv",
+                     headers={"Content-Disposition": "attachment; filename=youths.csv"})
 
 with app.app_context():
     db.create_all()

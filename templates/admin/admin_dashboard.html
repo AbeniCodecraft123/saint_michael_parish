@@ -167,6 +167,10 @@
   .badge.Sermon{background:rgba(76,110,145,0.14); color:var(--skyline);}
   .badge.Announcement{background:rgba(200,155,60,0.15); color:#a97e28;}
   .badge.Gallery{background:rgba(62,142,90,0.12); color:var(--success);}
+  .badge.pending{background:rgba(200,155,60,0.15); color:#a97e28;}
+  .badge.successful{background:rgba(62,142,90,0.12); color:var(--success);}
+  .badge.failed{background:rgba(178,58,58,0.12); color:var(--danger);}
+  .badge.cancelled{background:rgba(138,141,151,0.14); color:var(--muted);}
   .row-actions{display:flex; gap:8px; flex-wrap:nowrap;}
   .row-thumb{width:44px; height:44px; border-radius:8px; object-fit:cover; background:linear-gradient(140deg,#25396a,#0F1B33);}
   .cell-title{font-weight:600; color:var(--midnight);}
@@ -282,6 +286,11 @@
     <div class="nav-item" data-target="section-youth"><span class="dot"></span> Youth Registration</div>
   </div>
 
+  <div class="nav-group">
+    <div class="label">Finance</div>
+    <div class="nav-item" data-target="section-donations"><span class="dot"></span> Giving &amp; Donations</div>
+  </div>
+
   <div class="sidebar-foot">
     Logged in as<br><strong style="color:var(--white);">{{ session.admin_name or 'Church Admin' }}</strong><br>
     <a href="{{ url_for('admin_logout') }}">Sign out</a>
@@ -327,9 +336,9 @@
       <div class="greeting-banner">
         <div>
           <h1>
-            {% set hour = current_hour|default(12) %}
-            {% if hour < 12 %}Good morning{% elif hour < 17 %}Good afternoon{% else %}Good evening{% endif %},
-            {{ (session.admin_name.split(' ')[0]) if session.admin_name else 'Admin' }} &#128075;
+            <h1 id="greetingText">
+  Hello, {{ (session.admin_name.split(' ')[0]) if session.admin_name else 'Admin' }} &#128075;
+</h1> &#128075;
           </h1>
           <p>Here's what's happening across the parish today.</p>
         </div>
@@ -629,6 +638,7 @@
           <div class="eyebrow">Church</div>
           <h1>Member Registration</h1>
         </div>
+        <a class="btn btn-outline" href="{{ url_for('download_all_members') }}">&#11015; Download All (CSV)</a>
       </div>
 
       <div class="panel">
@@ -644,6 +654,7 @@
               <td>
                 <div class="row-actions">
                   <button class="btn btn-outline btn-sm" data-open-modal="memberView{{ item.id }}">View</button>
+                  <a class="btn btn-outline btn-sm" href="{{ url_for('download_member', id=item.id) }}">Download</a>
                   <form method="POST" action="{{ url_for('delete_member', id=item.id) }}" onsubmit="return confirm('Delete this member registration?');">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -666,6 +677,7 @@
           <div class="eyebrow">Church</div>
           <h1>Youth Registration</h1>
         </div>
+        <a class="btn btn-outline" href="{{ url_for('download_all_youths') }}">&#11015; Download All (CSV)</a>
       </div>
 
       <div class="panel">
@@ -681,6 +693,7 @@
               <td>
                 <div class="row-actions">
                   <button class="btn btn-outline btn-sm" data-open-modal="youthView{{ item.id }}">View</button>
+                  <a class="btn btn-outline btn-sm" href="{{ url_for('download_youth', id=item.id) }}">Download</a>
                   <form method="POST" action="{{ url_for('delete_youth', id=item.id) }}" onsubmit="return confirm('Delete this youth registration?');">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -690,6 +703,40 @@
             </tr>
             {% else %}
             <tr><td colspan="5" class="empty-row">No youth registrations yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ DONATIONS ============ -->
+    <section class="admin-section" id="section-donations">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">Finance</div>
+          <h1>Giving &amp; Donations</h1>
+        </div>
+      </div>
+
+      <div class="panel">
+        <table>
+          <thead><tr><th>Donor</th><th>Type</th><th>Amount</th><th>Status</th><th>Date</th><th></th></tr></thead>
+          <tbody>
+            {% for item in donations %}
+            <tr>
+              <td class="cell-title">{{ item.full_name }}</td>
+              <td>{{ item.donation_type }}</td>
+              <td>{{ item.currency }} {{ '{:,.2f}'.format(item.amount) if item.amount is not none else '—' }}</td>
+              <td><span class="badge {{ item.status }}">{{ item.status }}</span></td>
+              <td>{{ item.created_at.strftime('%b %d, %Y') if item.created_at else '—' }}</td>
+              <td>
+                <div class="row-actions">
+                  <button class="btn btn-outline btn-sm" data-open-modal="donationView{{ item.id }}">View</button>
+                </div>
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6" class="empty-row">No donations recorded yet.</td></tr>
             {% endfor %}
           </tbody>
         </table>
@@ -898,6 +945,26 @@
 </div>
 {% endfor %}
 
+{% for item in donations %}
+<div class="modal-overlay" id="donationView{{ item.id }}">
+  <div class="modal-box">
+    <button class="modal-close" data-close-modal>&times;</button>
+    <div class="modal-eyebrow">Donation</div>
+    <h3>{{ item.full_name }}</h3>
+    <p><strong>Status:</strong> <span class="badge {{ item.status }}">{{ item.status }}</span></p>
+    <p><strong>Type:</strong> {{ item.donation_type }}</p>
+    <p><strong>Amount:</strong> {{ item.currency }} {{ '{:,.2f}'.format(item.amount) if item.amount is not none else '—' }}</p>
+    <p><strong>Email:</strong> {{ item.email }}{% if item.phone %} &middot; {{ item.phone }}{% endif %}</p>
+    <p><strong>Reference:</strong> {{ item.reference }}</p>
+    <p><strong>OPay Order No:</strong> {{ item.opay_order_no or '—' }}</p>
+    <p><strong>OPay Transaction ID:</strong> {{ item.opay_transaction_id or '—' }}</p>
+    <p><strong>Payment Method:</strong> {{ item.payment_method or '—' }}</p>
+    <p><strong>Initiated:</strong> {{ item.created_at.strftime('%b %d, %Y, %I:%M %p') if item.created_at else '—' }}</p>
+    <p><strong>Last Updated:</strong> {{ item.updated_at.strftime('%b %d, %Y, %I:%M %p') if item.updated_at else '—' }}</p>
+  </div>
+</div>
+{% endfor %}
+
 <script>
   // Sidebar tab switching
   function activateTab(target){
@@ -954,6 +1021,13 @@
     });
   }
   if(aOverlay){ aOverlay.addEventListener('click', closeAdminSidebar); }
+
+const greetingEl = document.getElementById('greetingText');
+if (greetingEl) {
+  const hour = new Date().getHours();
+  const timeGreeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+  greetingEl.innerHTML = greetingEl.innerHTML.replace('Hello', timeGreeting);
+}
 </script>
 
 </body>
