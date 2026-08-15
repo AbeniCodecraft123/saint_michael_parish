@@ -884,7 +884,7 @@ textarea.form-control{
 </section>
 
 
-<footer id="contact">
+<footer>
   <div class="wrap">
     <div class="footer-grid">
       <div>
@@ -892,34 +892,31 @@ textarea.form-control{
           <span class="star"><svg viewBox="0 0 24 24" fill="#E4C77A"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
           Celestial Church of Christ
         </div>
-        <p style="font-size:0.88rem; max-width:280px; font-weight:300;">Saint Michael Parish — a community of faith, order, and light in the Aladura tradition.</p>
+        <p style="font-size:0.88rem; max-width:280px; font-weight:300;">Saint Michael Parish &mdash; a community of faith, order, and light in the Aladura tradition.</p>
       </div>
       <div>
         <h5>Explore</h5>
-        <a href="{{url_for('index')}}">Home</a>
-        <a href="{{url_for('about')}}">About</a>
+        <a href="{{url_for('about')}}">About Us</a>
         <a href="{{url_for('worship')}}">Worship</a>
         <a href="{{url_for('sermons')}}">Sermons</a>
         <a href="{{url_for('gallery')}}">Gallery</a>
-        <a href="{{url_for('announcements')}}">Announcements</a>
-        <a href="{{url_for('contact')}}">Contact</a>
       </div>
       <div>
         <h5>Church</h5>
-        <a href="about.html#governance">Governance &amp; Policies</a>
-        <a href="about.html#departments">Departments</a>
-        <a href="announcements.html">Resources</a>
-        <a href="give.html">Give</a>
+        <a href="{{url_for('about')}}#governance">Governance &amp; Policies</a>
+        <a href="{{url_for('about')}}#departments">Departments</a>
+        <a href="{{url_for('announcements')}}">Resources</a>
+        <a href="{{url_for('give')}}">Give</a>
       </div>
       <div>
         <h5>Contact</h5>
-        <a href="contact.html">Parish Address</a>
-        <a href="contact.html">Phone / WhatsApp</a>
-        <a href="contact.html">Email the Office</a>
+        <a href="{{url_for('contact')}}">Parish Address</a>
+        <a href="{{url_for('contact')}}">Phone / WhatsApp</a>
+        <a href="{{url_for('contact')}}">Email the Office</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 Celestial Church of Christ, Global Blessed Crusader, Saint Michael Parish. All rights reserved.</span>
+      <span>&copy; 2026 Celestial Church of Christ, Global Blessed Crusader, Saint Michael Parish. All rights reserved.</span>
       <span>Built for the Kingdom.</span>
             <span>Developed by <a href="https://abenicodecraftportfolio.netlify.app/"> abenicodecraft</a></span>
 

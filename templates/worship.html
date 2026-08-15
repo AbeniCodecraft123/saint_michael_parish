@@ -422,6 +422,31 @@
     border-radius:0; padding:64px 22px 36px;
   }
 }
+
+/* Holy Rites strip */
+.rite-strip{background:var(--white);}
+.rite-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+.rite-card{
+  position:relative; border-radius:var(--radius); overflow:hidden; min-height:190px;
+  background:linear-gradient(155deg,#1c2e52,var(--midnight)); padding:26px; display:flex; flex-direction:column;
+  justify-content:flex-end; cursor:pointer; transition:transform .25s ease, box-shadow .25s ease;
+}
+.rite-card:hover{transform:translateY(-5px); box-shadow:var(--shadow);}
+.rite-card .rite-num{position:absolute; top:20px; right:22px; font-family:'Cormorant Garamond', serif; font-size:1.6rem; color:rgba(228,199,122,0.35); font-weight:700;}
+.rite-card h4{color:var(--white); font-size:1.15rem; margin-bottom:6px;}
+.rite-card span{color:rgba(250,246,236,0.65); font-size:0.8rem; font-weight:300;}
+.rite-card .rite-link{margin-top:14px; color:var(--gold-soft); font-size:0.8rem; font-weight:600; letter-spacing:0.03em;}
+
+/* Sacred ceremonies */
+.ceremony-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:26px;}
+.ceremony-card{background:var(--ivory); border:1px solid var(--line); border-radius:var(--radius); padding:32px; text-align:left;}
+.ceremony-card .star{margin-bottom:16px;}
+.ceremony-card h3{font-size:1.25rem; margin-bottom:10px;}
+.ceremony-card p{color:#5a5d67; font-size:0.9rem; font-weight:300; margin-bottom:18px;}
+
+@media (max-width: 900px){
+  .rite-grid, .ceremony-grid{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
@@ -528,43 +553,57 @@
   </div>
 </section>
 
-<section class="inner-section" id="departments">
+<section class="inner-section alt rite-strip" id="holy-rites">
   <div class="wrap">
     <div class="section-head center">
-      <div class="divider"><span class="line"></span><span class="eyebrow" style="margin:0;">Get Involved</span><span class="line"></span></div>
-      <h2>Ministries &amp; Departments</h2>
+      <div class="divider"><span class="line"></span><span class="eyebrow" style="margin:0;">Sacred Life</span><span class="line"></span></div>
+      <h2>The Six Holy Rites</h2>
+      <p style="color:#5a5d67; font-weight:300; margin-top:14px;">Sacraments every member is encouraged to participate in as part of their spiritual life, in accordance with the CCC mode of worship.</p>
     </div>
-   <div class="people-grid">
-  <div class="people-card"><div class="people-avatar"></div><h4>Choir</h4><span>Music &amp; Worship</span>
-    <div style="margin-top:12px;"><a href="#" data-modal="choir" style="color:var(--skyline); font-weight:600; font-size:0.85rem;">Read More</a></div>
-  </div>
-  <div class="people-card"><div class="people-avatar"></div><h4>Prophetic Ministry</h4><span>Prophetic Service</span>
-    <div style="margin-top:12px;"><a href="#" data-modal="prophetic-ministry" style="color:var(--skyline); font-weight:600; font-size:0.85rem;">Read More</a></div>
-  </div>
-  <div class="people-card"><div class="people-avatar"></div><h4>Sidemen &amp; Women (Onibode)</h4><span>Ushering &amp; Order</span>
-    <div style="margin-top:12px;"><a href="#" data-modal="onibode" style="color:var(--skyline); font-weight:600; font-size:0.85rem;">Read More</a></div>
-  </div>
-  <div class="people-card"><div class="people-avatar"></div><h4>Youths Department</h4><span>Youth Fellowship</span>
-    <div style="margin-top:12px;"><a href="#" data-modal="youths" style="color:var(--skyline); font-weight:600; font-size:0.85rem;">Read More</a></div>
-  </div>
-  <div class="people-card"><div class="people-avatar"></div><h4>Sunday School</h4><span>Christian Education</span>
-    <div style="margin-top:12px;"><a href="#" data-modal="sunday-school" style="color:var(--skyline); font-weight:600; font-size:0.85rem;">Read More</a></div>
-  </div>
-  <div class="people-card"><div class="people-avatar"></div><h4>Global Blessed Crusader</h4><span>Evangelism &amp; Missions</span>
-    <div style="margin-top:12px;"><a href="#" data-modal="gbc" style="color:var(--skyline); font-weight:600; font-size:0.85rem;">Read More</a></div>
-  </div>
-  <div class="people-card"><div class="people-avatar"></div><h4>Elders</h4><span>Spiritual Oversight</span>
-    <div style="margin-top:12px;"><a href="#" data-modal="elders" style="color:var(--skyline); font-weight:600; font-size:0.85rem;">Read More</a></div>
-  </div>
-  <div class="people-card"><div class="people-avatar"></div><h4>Clergies</h4><span>Ministerial Service</span>
-    <div style="margin-top:12px;"><a href="#" data-modal="clergies" style="color:var(--skyline); font-weight:600; font-size:0.85rem;">Read More</a></div>
-  </div>
-  <div class="people-card"><div class="people-avatar"></div><h4>Women Affairs Ministry</h4><span>Catering, Supermarket</span>
-    <div style="margin-top:12px;"><a href="#" data-modal="women-affairs" style="color:var(--skyline); font-weight:600; font-size:0.85rem;">Read More</a></div>
-  </div>
-</div>
+    <div class="rite-grid">
+      <div class="rite-card" data-modal="rite-baptism"><span class="rite-num">01</span><h4>Baptism</h4><span>Immersion, cleansing, new life in Christ</span><span class="rite-link">Read More &rarr;</span></div>
+      <div class="rite-card" data-modal="rite-communion"><span class="rite-num">02</span><h4>Holy Communion</h4><span>Remembrance of Christ&rsquo;s body and blood</span><span class="rite-link">Read More &rarr;</span></div>
+      <div class="rite-card" data-modal="rite-washing"><span class="rite-num">03</span><h4>Annual Washing of Feet</h4><span>Humility, love, and service &mdash; Holy Week</span><span class="rite-link">Read More &rarr;</span></div>
+      <div class="rite-card" data-modal="rite-imeko"><span class="rite-num">04</span><h4>Pilgrimage to Imeko</h4><span>Every Christmas Eve at the church&rsquo;s birthplace</span><span class="rite-link">Read More &rarr;</span></div>
+      <div class="rite-card" data-modal="rite-harvest"><span class="rite-num">05</span><h4>Harvest Thanksgiving</h4><span>Annual gratitude for God&rsquo;s blessings</span><span class="rite-link">Read More &rarr;</span></div>
+      <div class="rite-card" data-modal="rite-mary"><span class="rite-num">06</span><h4>Holy Mary&rsquo;s Day</h4><span>Honouring the Virgin Mary&rsquo;s role in salvation</span><span class="rite-link">Read More &rarr;</span></div>
+    </div>
   </div>
 </section>
+
+<section class="inner-section" id="sacred-ceremonies">
+  <div class="wrap">
+    <div class="section-head center">
+      <div class="divider"><span class="line"></span><span class="eyebrow" style="margin:0;">Plan a Milestone</span><span class="line"></span></div>
+      <h2>Sacred Ceremonies</h2>
+      <p style="color:#5a5d67; font-weight:300; margin-top:14px;">Preparing for baptism, marriage, or a child&rsquo;s christening? Here&rsquo;s what to know before speaking with the Shepherd.</p>
+    </div>
+    <div class="ceremony-grid">
+      <div class="ceremony-card">
+        <span class="star"><svg viewBox="0 0 24 24" fill="#C89B3C"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+        <h3>Baptism</h3>
+        <p>The gateway into full membership through water immersion, repentance, and spiritual cleansing.</p>
+        <a href="#" class="btn btn-dark" data-modal="ceremony-baptism">Read More....</a>
+      </div>
+      <div class="ceremony-card">
+        <span class="star"><svg viewBox="0 0 24 24" fill="#C89B3C"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+        <h3>Marriage</h3>
+        <p>A holy covenant solemnized in church, prepared for through counseling and prayer.</p>
+        <a href="#" class="btn btn-dark" data-modal="ceremony-marriage">Read More....</a>
+      </div>
+      <div class="ceremony-card">
+        <span class="star"><svg viewBox="0 0 24 24" fill="#C89B3C"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></span>
+        <h3>Child Christening</h3>
+        <p>A child is presented before God for blessing, protection, and dedication.</p>
+        <a href="#" class="btn btn-dark" data-modal="ceremony-christening">Read More....</a>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:40px;">
+      <a href="contact.html" class="btn btn-primary">Speak With the Shepherd</a>
+    </div>
+  </div>
+</section>
+
 
 <footer>
   <div class="wrap">
@@ -578,23 +617,23 @@
       </div>
       <div>
         <h5>Explore</h5>
-        <a href="about.html">About Us</a>
-        <a href="worship.html">Worship</a>
-        <a href="sermons.html">Sermons</a>
-        <a href="gallery.html">Gallery</a>
+        <a href="{{url_for('about')}}">About Us</a>
+        <a href="{{url_for('worship')}}">Worship</a>
+        <a href="{{url_for('sermons')}}">Sermons</a>
+        <a href="{{url_for('gallery')}}">Gallery</a>
       </div>
       <div>
         <h5>Church</h5>
-        <a href="about.html#governance">Governance &amp; Policies</a>
-        <a href="about.html#departments">Departments</a>
-        <a href="announcements.html">Resources</a>
-        <a href="give.html">Give</a>
+        <a href="{{url_for('about')}}#governance">Governance &amp; Policies</a>
+        <a href="{{url_for('about')}}#departments">Departments</a>
+        <a href="{{url_for('announcements')}}">Resources</a>
+        <a href="{{url_for('give')}}">Give</a>
       </div>
       <div>
         <h5>Contact</h5>
-        <a href="contact.html">Parish Address</a>
-        <a href="contact.html">Phone / WhatsApp</a>
-        <a href="contact.html">Email the Office</a>
+        <a href="{{url_for('contact')}}">Parish Address</a>
+        <a href="{{url_for('contact')}}">Phone / WhatsApp</a>
+        <a href="{{url_for('contact')}}">Email the Office</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -605,6 +644,7 @@
     </div>
   </div>
 </footer>
+
 <div class="modal-overlay" id="readMoreModal">
   <div class="modal-box">
     <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
@@ -653,20 +693,12 @@
           <li>White Garments &ndash; Worshippers wear white garments as a symbol of purity, holiness, and separation unto God.</li>
           <li>Barefoot Worship &ndash; Members remove their shoes within the sanctuary as a sign of reverence before God, following the biblical example in Exodus 3:5.</li>
           <li>Closing Prayer and Benediction &ndash; The service concludes with prayers, blessings, and announcements.</li>
-          <li>Principles of CCC Worship</li>
-          <li>Christ-centered and Bible-based.</li>
-          <li>Guided by the Holy Spirit.</li>
-          <li>Conducted in holiness, orderliness, and reverence.</li>
-          <li>Encourages active congregational participation through singing, prayer, and testimony.</li>
-          <li>Aims at spiritual growth, repentance, healing, deliverance, and fellowship with God.</li>
-          <li>This mode of worship reflects the distinctive liturgical and spiritual traditions of the Celestial Church of Christ while emphasizing the worship of God through Jesus Christ under the guidance of the Holy Spirit.</li>
         </ul>`
     },
     "liturgy": {
       eyebrow: "Worship",
       title: "Liturgy",
       html: `<p>These refers to the order, pattern, and conduct of worship services. It covers how worship is carried out, including prayers, hymns, Bible readings, processions, baptism, Holy Communion, marriage, child dedication/christening, and anointing.</p>
-        <p>It also include the order of worship, use of candles, robes, prayers, hymns, processions, prophetic ministration, Scripture readings, and other worship practices.</p>
         <h4>SOME COMMON LITURGIES IN CCC</h4>
         <ul>
           <li>Sunday Worship Service</li>
@@ -679,28 +711,12 @@
           <li>Marriage Blessing Service</li>
           <li>Holy Communion Service (where observed)</li>
           <li>Harvest Thanksgiving Service</li>
-          <li>Ordination and Rank Promotion Service</li>
-          <li>Annual Adult Harvest Service</li>
-          <li>Juvenile Harvest Service</li>
-          <li>New Year Crossover Service</li>
-          <li>Good Friday Service</li>
-          <li>Easter Celebration Service</li>
-          <li>Christmas Service</li>
-          <li>Funeral and Burial Service</li>
-          <li>Memorial Service</li>
-          <li>Church Dedication or Anniversary Service</li>
-          <li>Foundation-Laying Ceremony</li>
-          <li>House Blessing/Dedication Service</li>
-          <li>Anointing Service</li>
-          <li>Prayer and Deliverance Service</li>
-          <li>Fasting and Prayer Programme</li>
         </ul>`
-
     },
     "ordinances": {
       eyebrow: "Worship",
       title: "Ordinances",
-      html: `<p>These are the divine rules, regulations, and sacred practices that govern the spiritual life, conduct, worship, and discipline of members. They are regarded as instructions revealed through the Holy Spirit and are expected to be obeyed by all members.</p>
+      html: `<p>These are the divine rules, regulations, and sacred practices that govern the spiritual life, conduct, worship, and discipline of members.</p>
         <h4>SOME OF THE MAJOR ORDINANCES IN CCC</h4>
         <ul>
           <li>Baptism &ndash; Admission into the Church after sanctification and preparation.</li>
@@ -710,14 +726,86 @@
           <li>Annual Washing of Feet &ndash; A sacred observance following Christ's example.</li>
           <li>Harvest Thanksgiving &ndash; Annual thanksgiving service to God.</li>
           <li>Pilgrimage/Convocation &ndash; Participation in major annual Church gatherings.</li>
-          <li>Worship Ordinances &ndash; Observing the prescribed order of worship, including the use of white garments, white candles, and reverence within the sanctuary.</li>
-          <li>Avoiding idolatry, charms, and occult practices.</li>
-          <li>Abstaining from alcohol, tobacco, and immoral behavior.</li>
-          <li>Maintaining ritual cleanliness and holiness.</li>
-          <li>Observing the Church's dress code and worship regulations.</li>
         </ul>`
     },
-
+    "rite-baptism": {
+      eyebrow: "Holy Rite 01",
+      title: "Baptism",
+      html: `<p>Performed by immersion. It is required before a person is fully admitted as a member of the church and signifies repentance, cleansing from sin, and new life in Christ.</p>`
+    },
+    "rite-communion": {
+      eyebrow: "Holy Rite 02",
+      title: "Holy Communion",
+      html: `<p>The remembrance of the body and blood of Jesus Christ. It is commonly observed quarterly, on Holy Thursday before Easter, Christmas Day, and on other special occasions such as marriages and memorial services.</p>`
+    },
+    "rite-washing": {
+      eyebrow: "Holy Rite 03",
+      title: "Annual Washing of Feet",
+      html: `<p>Observed during Holy Week in remembrance of Jesus washing His disciples' feet, symbolizing humility, love, and service.</p>`
+    },
+    "rite-imeko": {
+      eyebrow: "Holy Rite 04",
+      title: "Annual Pilgrimage to Imeko",
+      html: `<p>Held every Christmas Eve at Imeko, Ogun State, the birthplace of the church. It is a special time of worship, thanksgiving, prayer, and spiritual renewal.</p>`
+    },
+    "rite-harvest": {
+      eyebrow: "Holy Rite 05",
+      title: "Annual Harvest Thanksgiving Service",
+      html: `<p>A special thanksgiving service where members offer gratitude to God for His blessings and faithfulness throughout the year.</p>`
+    },
+    "rite-mary": {
+      eyebrow: "Holy Rite 06",
+      title: "Holy Mary's Day",
+      html: `<p>A special annual celebration in honour of the role of the Virgin Mary in God's plan of salvation, observed according to the traditions of the Celestial Church of Christ.</p>
+        <p>These six holy rites are regarded as important ordinances that strengthen the spiritual life of members and are integral to CCC worship and practice.</p>`
+    },
+    "ceremony-baptism": {
+      eyebrow: "Sacred Ceremony",
+      title: "Baptism &mdash; Requirements",
+      html: `<h4>BEFORE BAPTISM</h4>
+        <ul>
+          <li>Must have been worshipping in the church for not more than one year and adhered to the rules and regulations of the church.</li>
+          <li>Must accept Jesus Christ as his/her Lord and Saviour.</li>
+          <li>Must undergo a brief training on the importance of baptism.</li>
+          <li>Must renounce all secret cults, idol worship, fetish practices, magic and associations contrary to the tenets of CCC.</li>
+          <li>Must understand and submit to the tenets, doctrines and mode of worship of the church.</li>
+          <li>Must be duly ready and prepared for baptism by water immersion.</li>
+        </ul>
+        <h4>AFTER BAPTISM</h4>
+        <ul>
+          <li>The baptized member becomes a full member of CCC.</li>
+          <li>Must continue to obey the tenets, rules and code of conduct of CCC.</li>
+          <li>Should live a committed Christian life and participate faithfully in church activities.</li>
+          <li>Is fit to join any department in the Church.</li>
+        </ul>`
+    },
+    "ceremony-marriage": {
+      eyebrow: "Sacred Ceremony",
+      title: "Marriage &mdash; Requirements",
+      html: `<p>A holy covenant ordained by God between a man and a woman with the intention of promoting love, companionship, faithfulness and the establishment of a godly family.</p>
+        <h4>BEFORE SOLEMNIZATION</h4>
+        <ul>
+          <li>Both parties must be of legal marriageable age and unmarried (or legally free to marry).</li>
+          <li>The couple should inform the Shepherd of their intention to marry.</li>
+          <li>Premarital counseling classes should be completed.</li>
+          <li>The marriage intention is announced (publication of banns) for a specified period.</li>
+          <li>Required documents: birth certificates, passport photographs, valid ID, evidence of freedom to marry, and parental/guardian consent where applicable.</li>
+          <li>Any required church dues or administrative fees should be settled before the wedding.</li>
+          <li>The wedding date must be approved by the church authorities.</li>
+        </ul>`
+    },
+    "ceremony-christening": {
+      eyebrow: "Sacred Ceremony",
+      title: "Child Christening &mdash; What to Expect",
+      html: `<p>A sacred service in which a child is presented before God for blessing, protection, and dedication.</p>
+        <ul>
+          <li>Parents should notify the church and schedule the ceremony.</li>
+          <li>The child is received by the Shepherd or officiating minister prior to the service.</li>
+          <li>The service includes prayers of thanksgiving and dedication, and a blessing over the child.</li>
+          <li>The child's name is spiritually revealed through the prophet/prophetess in attendance and formally announced before the congregation.</li>
+          <li>The child's details (name and date of birth) should be submitted for church records.</li>
+        </ul>`
+    },
     "choir": {
       eyebrow: "Ministries & Departments",
       title: "Choir Department",
@@ -737,7 +825,6 @@
       eyebrow: "Ministries & Departments",
       title: "Prophetic Ministry",
       html: `<p>The Prophetic Ministry in Celestial Church of Christ refers to the spiritual ministry or department through which God reveals his mind, guidance, warnings, comfort, correction, and direction to his people through divine inspiration, revelation, visions, or prophecy and their work must always agree with God's Word and church doctrine.</p>
-        <p>The department is expected to operate with holiness, discipline, humility, and under proper spiritual authority, always for the growth and edification of the church.</p>
         <h4>FUNCTIONS</h4>
         <ul>
           <li>Reveal God's Message</li>
@@ -745,80 +832,43 @@
           <li>Helps direct members in making godly decisions through divine revelation.</li>
           <li>Brings correction where necessary to keep the church aligned with God's will.</li>
           <li>Strengthens believers through inspired words of hope and assurance.</li>
-          <li>Helps identify spiritual challenges and reveals solutions through God's leading.</li>
-          <li>Helps keep the church spiritually alert and focused on God's purpose(s)</li>
-          <li>Confirms what God is already speaking through His Word and Spirit.</li>
         </ul>`
     },
     "onibode": {
       eyebrow: "Ministries & Departments",
       title: "Sidemen & Women (Onibode)",
       html: `<p>The Sides Men and Women are church workers appointed to maintain order, assist church leaders, and support the smooth running of church services and activities.</p>
-        <p>They serve as attendants and helpers, ensuring discipline, coordination, and proper conduct within the church.</p>
-        <p>They are expected to serve with discipline, respect, humility, alertness, and dedication, helping maintain reverence in God's house.</p>
         <h4>FUNCTIONS</h4>
         <ul>
           <li>Maintain Orderliness in and around the church premises.</li>
-          <li>Ensure peace, discipline, and proper arrangement during services.</li>
-          <li>Serves as incense bearing</li>
-          <li>Leads the congregation into the church during devotional service</li>
-          <li>Serves as ushers and offering collectors</li>
-          <li>Assist Church Leaders when needed</li>
-          <li>Support the shepherd, ministers, and other church officers when needed</li>
-          <li>Help guide worshippers to proper seating and provide assistance.</li>
-          <li>Crowd Control and Coordination.</li>
-          <li>Manage movement during services, processions, and special programs.</li>
-          <li>Monitoring Proper Conduct.</li>
-          <li>Ensure members dress and behave according to church standards.</li>
-          <li>Supporting Special Church Activities.</li>
-          <li>Assist during vigils, revivals, harvests, crusades, and ceremonies.</li>
-          <li>Help arrange church spiritual materials, chairs.</li>
-          <li>Ensuring Cleanliness and Decorum.</li>
-          <li>Performs Security and Safety functions.</li>
-          <li>Watch over the congregation's safety and report unusual situations.</li>
+          <li>Serves as incense bearing and leads the congregation into the church during devotional service.</li>
+          <li>Serves as ushers and offering collectors.</li>
+          <li>Crowd control and coordination during services and processions.</li>
+          <li>Monitors proper conduct and performs security and safety functions.</li>
         </ul>`
     },
     "youths": {
       eyebrow: "Ministries & Departments",
       title: "Youths Department",
       html: `<p>This department is made up of young people who are organized to grow spiritually, serve God actively, and contribute to the progress of the church.</p>
-        <p>It helps them to become responsible Christians and future leaders in the church. They are expected to uphold holiness, obedience, discipline, and active participation in church activities.</p>
         <h4>FUNCTIONS</h4>
         <ul>
-          <li>Promote Spiritual Growth</li>
-          <li>Encourages prayer, Bible study, holiness, and Christian living among themselves.</li>
-          <li>Activities tailored towards training future church leaders and effective service delivery</li>
-          <li>Organizes Youth Programs such as fellowships, seminars, retreats, revivals, and evangelism that promotes soul winning for Christ.</li>
+          <li>Promote spiritual growth through prayer, Bible study, and holiness.</li>
+          <li>Organizes youth programs such as fellowships, seminars, retreats, revivals, and evangelism.</li>
           <li>Promotes love, cooperation, and teamwork among young members.</li>
           <li>Helps youths discover and use their spiritual and natural gifts for God's work.</li>
-          <li>Support church activities such as sanitation and special events.</li>
-          <li>Helps young people make godly decisions in life e.g relationships, education, and career.</li>
-          <li>Teaches respect, obedience, responsibility, moral conduct and defending the church image and vision</li>
         </ul>`
     },
     "sunday-school": {
       eyebrow: "Ministries & Departments",
       title: "Sunday School",
-      html: `<p>This department is responsible for teaching children the Word of God in a simple, structured, and ageappropriate way during church services.</p>
-        <p>It helps children grow in the knowledge of God, develop godly character, and build a strong spiritual foundation from an early age.</p>
+      html: `<p>This department is responsible for teaching children the Word of God in a simple, structured, and age-appropriate way during church services.</p>
         <h4>FUNCTIONS</h4>
         <ul>
           <li>Teaching the Word of God, Bible stories, lessons, and basic Christian doctrines to children.</li>
-          <li>Building Spiritual Foundation</li>
-          <li>Helps children know God early and grow in faith.</li>
-          <li>Instil the fear of God, obedience, honesty, love, respect, kindness, and discipline.</li>
-          <li>Encouraging Prayer and Worship</li>
-          <li>Trains children to pray, sing, and worship God</li>
-          <li>.Guiding Moral Development</li>
-          <li>Helps children distinguish right from wrong according to biblical principles.</li>
-          <li>Preparing Future Church Workers and Leaders</li>
-          <li>Builds future pastors, evangelists, choir members, and church leaders.</li>
-          <li>Helping Children Understand Church Doctrine</li>
-          <li>Introduces them to the teachings and practices of the church.</li>
-          <li>Helps discover children's talents and spiritual gifts for God's service.</li>
-          <li>Providing Care and Guidance</li>
-          <li>Gives spiritual attention, encouragement, and counseling suited to children.</li>
-          <li>Supporting Parents in Spiritual Training</li>
+          <li>Building a spiritual foundation and instilling the fear of God, obedience, and discipline.</li>
+          <li>Encouraging prayer and worship, and guiding moral development.</li>
+          <li>Preparing future church workers and leaders.</li>
         </ul>`
     },
     "gbc": {
@@ -828,64 +878,44 @@
         <h4>FUNCTIONS</h4>
         <ul>
           <li>Win souls for Christ and encourage repentance and salvation.</li>
-          <li>Helping them grow spiritually.</li>
           <li>Coordinate missionary activities and support mission fields.</li>
           <li>Represent the church internationally by promoting its vision, doctrine, and mission.</li>
-          <li>Promote unity among branches and believers across different regions and countries.</li>
-          <li>Engage in humanitarian and community outreach, demonstrating Christ's love through practical acts of service.</li>
-          <li>Mobilize prayer and intercession for the growth of the church and the salvation of nations.</li>
-          <li>Collaborate with church leadership to expand the church's global outreach while maintaining doctrinal integrity.</li>
+          <li>Engage in humanitarian and community outreach.</li>
         </ul>`
     },
     "elders": {
       eyebrow: "Ministries & Departments",
       title: "Elders",
       html: `<p>Elders are spiritually matured and respected leaders in the church who are appointed because of their wisdom, good character, and commitment to God's work.</p>
-        <p>They help support the founder/shepherd in leadership, counsel, discipline, and the spiritual growth of the church.</p>
         <h4>FUNCTIONS</h4>
         <ul>
-          <li>Providing Spiritual Leadership</li>
-          <li>Help guide the church according to biblical principles and church doctrines.</li>
-          <li>Support the founder/shepherd in carrying out church responsibilities.</li>
-          <li>Counseling and Advising Members, families, and church workers.</li>
-          <li>Help ensure members follow church rules and uphold godly conduct.g, and spiritual guidance.</li>
-          <li>Help resolve misunderstandings and promote peace within the church.</li>
-          <li>Praying and Interceding for the Church</li>
-          <li>Serving as Role Models</li>
-          <li>Demonstrate godliness, humility, wisdom, and faithfulness for others to follow.</li>
-          <li>Help in protecting and preserving the church vision, doctrines and tradition</li>
+          <li>Provide spiritual leadership and help guide the church according to biblical principles.</li>
+          <li>Counsel and advise members, families, and church workers.</li>
+          <li>Pray and intercede for the church, and serve as role models.</li>
         </ul>`
     },
     "clergies": {
       eyebrow: "Ministries & Departments",
       title: "Clergies",
-      html: `<p>These are officially ordained, consecrated or appointed individuals that performs religious duties and provide spiritual leadership within a church or religious body</p>
+      html: `<p>These are officially ordained, consecrated or appointed individuals that perform religious duties and provide spiritual leadership within a church or religious body.</p>
         <h4>FUNCTIONS</h4>
         <ul>
           <li>Preaching and teaching</li>
           <li>Prayer and intercession</li>
           <li>Evangelism and mission work</li>
-          <li>Upholding Church doctrines, constitution, standards of the Church and Traditions</li>
           <li>Administering Sacraments and Ordinances</li>
         </ul>`
     },
     "women-affairs": {
       eyebrow: "Ministries & Departments",
       title: "Women Affairs Ministry",
-      html: `<p>This Ministry is usually headed/coordinated by the wife of the founder/shepherd or by a well-respected, married, spiritually inclined and a proven woman of high integrity and with wealth of experience as a mother and a mentor.</p>
-        <p>The ministry is dedicated to nurturing, empowering and coordinating the Spiritual and social activities of women. It also promotes godly living, unity and leadership among women while supporting the overall vision and mission of the Church.</p>
+      html: `<p>This Ministry is dedicated to nurturing, empowering and coordinating the Spiritual and social activities of women, promoting godly living, unity and leadership among women.</p>
         <h4>FUNCTIONS</h4>
         <ul>
-          <li>Identifies and trains women for leadership roles</li>
+          <li>Identifies and trains women for leadership roles.</li>
           <li>Promotes healthy Christian marriages and family values.</li>
-          <li>Encourages women to develop a deeper relationship with God</li>
-          <li>Guides, teaches, and counsels women especially wives and young sister's in the church.</li>
-          <li>Promotes Peace and Unity</li>
-          <li>Offers guidance, correction, comfort, and encouragement</li>
-          <li>Help in settling misunderstandings in marriages and encourages love and harmony among the women and families.</li>
-          <li>Shows compassion and love to all in need.</li>
-          <li>Sets example of godliness, humility, contentment, simplicity, discipline, prayer warrior e.t.c</li>
-          <li>Supports church programs</li>
+          <li>Guides, teaches, and counsels women and young sisters in the church.</li>
+          <li>Offers guidance, correction, comfort, and encouragement.</li>
         </ul>`
     },
     "weekly-schedule": {
