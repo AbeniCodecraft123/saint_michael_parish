@@ -518,7 +518,7 @@ def donation_success():
 from datetime import timedelta
 
 @app.route('/admin_dashboard', methods=["GET"])
-#@admin_required
+@admin_required
 def admin_dashboard():
     week_ago = datetime.utcnow() - timedelta(days=7)
     stats = {
