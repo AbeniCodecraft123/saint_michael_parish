@@ -405,6 +405,24 @@ textarea.form-control{
   text-shadow: 0 1px 3px rgba(0,0,0,0.6);
 }
 
+.hero-search{
+  max-width:560px; margin:0 auto 44px; display:flex; gap:0;
+  background:var(--ivory); border-radius:30px; padding:6px;
+  box-shadow:0 12px 40px rgba(0,0,0,0.35); border:1px solid rgba(200,155,60,0.4);
+}
+.hero-search input{
+  flex:1; padding:14px 20px; border-radius:24px; border:none;
+  background:transparent; color:var(--ink); font-family:inherit; font-size:0.95rem;
+}
+.hero-search input::placeholder{color:#8a8d97;}
+.hero-search input:focus{outline:none;}
+.hero-search button{
+  padding:14px 28px; border-radius:24px; border:none; background:var(--gold);
+  color:var(--midnight); font-weight:700; cursor:pointer; font-size:0.9rem;
+  transition:background .2s ease;
+}
+.hero-search button:hover{background:var(--gold-soft);}
+
 @keyframes pop{
     from{
         opacity:0;
@@ -430,6 +448,42 @@ textarea.form-control{
     .hero-strip{grid-template-columns:1fr;}
     .hero-strip div{border-right:none; border-bottom:1px solid rgba(250,246,236,0.14);}
   }
+
+   @media (max-width: 600px){
+  .hero{ min-height:auto; padding-top:100px; padding-bottom:40px; }
+  .hero-content{ padding:0 20px; }
+
+  .hero .eyebrow{ font-size:0.62rem; margin-bottom:16px; }
+
+  .hero h1{
+    font-size:1.9rem; line-height:1.2; max-width:100%; margin-bottom:14px;
+  }
+
+  .hero p.lead{
+    font-size:0.92rem; max-width:100%; margin-bottom:26px; padding:0 6px;
+  }
+
+  .hero-search{ max-width:100%; margin-bottom:26px; }
+  .hero-search input{ padding:12px 16px; font-size:0.85rem; }
+  .hero-search button{ padding:12px 18px; font-size:0.82rem; }
+
+  .hero-actions{
+    flex-direction:column; align-items:stretch; gap:10px; margin-bottom:36px;
+  }
+  .hero-actions .btn{
+    width:100%; justify-content:center; padding:13px 20px; font-size:0.85rem;
+  }
+
+  .hero-strip{ grid-template-columns:1fr; }
+  .hero-strip div{
+    border-right:none; border-bottom:1px solid rgba(250,246,236,0.14);
+    padding:16px 10px;
+  }
+  .hero-strip div:last-child{ border-bottom:none; }
+  .hero-strip .label{ font-size:0.62rem; }
+  .hero-strip .value{ font-size:1rem; line-height:1.4; }
+}
+
 </style>
 </head>
 <body>
@@ -466,9 +520,15 @@ textarea.form-control{
     <div class="eyebrow">Celestial Church of Christ</div>
     <h1>A light for the parish, <em>a home</em> for the faithful</h1>
     <p class="lead">Saint Michael Parish welcomes you to worship, prayer, and fellowship rooted in the Aladura tradition — in spirit and in truth.</p>
+
+    <form action="{{ url_for('search') }}" method="GET" class="hero-search">
+      <input type="text" name="q" placeholder="Search sermons, gallery, announcements…" required>
+      <button type="submit">Search</button>
+    </form>
+
     <div class="hero-actions">
       <a href="{{url_for('youth_registration')}}" class="btn btn-primary">Register As Youth</a>
-        <a href="{{url_for('prayer_request')}}" class="btn btn-primary">Prayer Request</a>
+      <a href="{{url_for('prayer_request')}}" class="btn btn-primary">Prayer Request</a>
       <a href="#register" class="btn btn-ghost">Register as Member</a>
     </div>
   </div>
@@ -481,6 +541,7 @@ textarea.form-control{
     <div><div class="label">Location</div><div class="value">Saint Michael Parish, Nigeria</div></div>
   </div>
 </section>
+
 
 <section class="about" id="about">
   <div class="wrap about-grid">
