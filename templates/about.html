@@ -475,6 +475,9 @@
     display:block;
 }
 
+.dropdown-menu.show {
+    display: block;
+}
 /* Patriarchs & Heroes */
 .patriarchs{background:var(--white); border-top:1px solid var(--line);}
 .patriarchs-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:22px;}
@@ -2192,6 +2195,16 @@ Glory be to God for all He has done in her life.</p>`
   modalClose.addEventListener('click', closeReadMoreModal);
   modal.addEventListener('click', (e) => { if(e.target === modal) closeReadMoreModal(); });
   document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeReadMoreModal(); });
+
+ document.querySelectorAll('.dropdown > .dropbtn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        // Only intercept on mobile/touch — let desktop hover still work
+        if (window.innerWidth <= 768) {
+            e.preventDefault();
+            this.parentElement.querySelector('.dropdown-menu').classList.toggle('show');
+        }
+    });
+});
 </script>
 </body>
 </html>

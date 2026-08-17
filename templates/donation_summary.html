@@ -130,7 +130,7 @@ footer{background:var(--midnight); color:rgba(250,246,236,0.7); padding:40px 0; 
     {% if donation.status == 'successful' %}
       <p style="margin-top:24px; color:#5a5d67; font-size:0.9rem;">Thank you for your generosity. A confirmation has been sent to {{ donation.email }}.</p>
     {% elif donation.status == 'pending' %}
-      <p style="margin-top:24px; color:#5a5d67; font-size:0.9rem;">We're still confirming this payment with OPay. Refresh this page in a moment, or check back shortly.</p>
+      <p style="margin-top:24px; color:#5a5d67; font-size:0.9rem;">We're still confirming this payment with Monnify. Refresh this page in a moment, or check back shortly.</p>
       <a href="{{ url_for('donation_summary', reference=donation.reference) }}" class="btn btn-ghost">Refresh Status</a>
     {% else %}
       <p style="margin-top:24px; color:#5a5d67; font-size:0.9rem;">Something went wrong with this payment. You can try again below.</p>
