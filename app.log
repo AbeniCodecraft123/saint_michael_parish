@@ -1,0 +1,155 @@
+2026-08-16 13:38:14,683 WARNING  * Debugger is active!
+2026-08-16 13:38:14,691 INFO  * Debugger PIN: 489-864-850
+2026-08-16 13:38:14,717 WARNING  * Debugger is active!
+2026-08-16 13:38:14,723 INFO  * Debugger PIN: 489-864-850
+2026-08-16 13:39:04,917 INFO  * Detected change in 'C:\\Users\\USER\\Downloads\\st-michael-parish-website\\saint_michael_backend.py', reloading
+2026-08-16 13:39:05,200 INFO  * Detected change in 'C:\\Users\\USER\\Downloads\\st-michael-parish-website\\saint_michael_backend.py', reloading
+2026-08-16 13:39:08,069 WARNING  * Debugger is active!
+2026-08-16 13:39:08,075 INFO  * Debugger PIN: 489-864-850
+2026-08-16 13:39:08,112 WARNING  * Debugger is active!
+2026-08-16 13:39:08,116 INFO  * Debugger PIN: 489-864-850
+2026-08-16 13:39:08,179 INFO 127.0.0.1 - - [16/Aug/2026 13:39:08] "GET /give HTTP/1.1" 200 -
+2026-08-16 13:39:29,523 INFO MONNIFY RESPONSE: {"requestSuccessful": true, "responseMessage": "success", "responseCode": "0", "responseBody": {"transactionReference": "MNFY|72|20260816133929|000410", "paymentReference": "DON-844A9FC0E9E143F79AA6", "merchantName": "Abeni_code_craft", "apiKey": "MK_TEST_36SVGFDHSK", "redirectUrl": "http://127.0.0.1:5000/donation/DON-844A9FC0E9E143F79AA6", "enabledPaymentMethod": ["CARD", "ACCOUNT_TRANSFER"], "checkoutUrl": "https://sandbox.sdk.monnify.com/checkout/MNFY|72|20260816133929|000410"}}
+2026-08-16 13:39:29,558 INFO 127.0.0.1 - - [16/Aug/2026 13:39:29] "[32mPOST /give HTTP/1.1[0m" 302 -
+2026-08-16 14:19:52,256 INFO 127.0.0.1 - - [16/Aug/2026 14:19:52] "GET /give HTTP/1.1" 200 -
+2026-08-16 14:19:55,770 INFO 127.0.0.1 - - [16/Aug/2026 14:19:55] "GET /give HTTP/1.1" 200 -
+2026-08-16 14:20:10,394 INFO MONNIFY RESPONSE: {"requestSuccessful": true, "responseMessage": "success", "responseCode": "0", "responseBody": {"transactionReference": "MNFY|61|20260816142010|000437", "paymentReference": "DON-B05131B7C53841BB8511", "merchantName": "Abeni_code_craft", "apiKey": "MK_TEST_36SVGFDHSK", "redirectUrl": "http://127.0.0.1:5000/donation/DON-B05131B7C53841BB8511", "enabledPaymentMethod": ["CARD", "ACCOUNT_TRANSFER"], "checkoutUrl": "https://sandbox.sdk.monnify.com/checkout/MNFY|61|20260816142010|000437"}}
+2026-08-16 14:20:10,511 INFO 127.0.0.1 - - [16/Aug/2026 14:20:10] "[32mPOST /give HTTP/1.1[0m" 302 -
+2026-08-16 15:28:47,952 INFO  * Detected change in 'C:\\Users\\USER\\Downloads\\st-michael-parish-website\\saint_michael_backend.py', reloading
+2026-08-16 15:28:47,963 INFO  * Detected change in 'C:\\Users\\USER\\Downloads\\st-michael-parish-website\\saint_michael_backend.py', reloading
+2026-08-16 15:28:55,977 WARNING  * Debugger is active!
+2026-08-16 15:28:55,989 INFO  * Debugger PIN: 489-864-850
+2026-08-16 15:28:56,497 WARNING  * Debugger is active!
+2026-08-16 15:28:56,504 INFO  * Debugger PIN: 489-864-850
+2026-08-17 10:24:42,676 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.245.45.156:5000
+2026-08-17 10:24:42,676 INFO [33mPress CTRL+C to quit[0m
+2026-08-17 10:24:42,679 INFO  * Restarting with stat
+2026-08-17 10:24:44,251 WARNING  * Debugger is active!
+2026-08-17 10:24:44,269 INFO  * Debugger PIN: 489-864-850
+2026-08-17 10:25:20,962 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.245.45.156:5000
+2026-08-17 10:25:20,962 INFO [33mPress CTRL+C to quit[0m
+2026-08-17 10:25:20,964 INFO  * Restarting with stat
+2026-08-17 10:25:22,578 WARNING  * Debugger is active!
+2026-08-17 10:25:22,582 INFO  * Debugger PIN: 489-864-850
+2026-08-17 10:25:46,963 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.245.45.156:5000
+2026-08-17 10:25:46,963 INFO [33mPress CTRL+C to quit[0m
+2026-08-17 10:25:46,966 INFO  * Restarting with stat
+2026-08-17 10:25:48,483 WARNING  * Debugger is active!
+2026-08-17 10:25:48,488 INFO  * Debugger PIN: 489-864-850
+2026-08-17 10:26:10,992 INFO 127.0.0.1 - - [17/Aug/2026 10:26:10] "GET /give HTTP/1.1" 200 -
+2026-08-17 10:26:11,412 INFO 127.0.0.1 - - [17/Aug/2026 10:26:11] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-08-17 10:26:14,132 INFO 127.0.0.1 - - [17/Aug/2026 10:26:14] "GET / HTTP/1.1" 200 -
+2026-08-17 10:26:14,869 INFO 127.0.0.1 - - [17/Aug/2026 10:26:14] "[36mGET /static/images/church_image_6.jpeg HTTP/1.1[0m" 304 -
+2026-08-17 10:26:14,889 INFO 127.0.0.1 - - [17/Aug/2026 10:26:14] "[36mGET /static/images/WhatsApp%20Image%202026-08-08%20at%2011.34.26%20AM.jpeg HTTP/1.1[0m" 304 -
+2026-08-17 10:26:25,984 INFO 127.0.0.1 - - [17/Aug/2026 10:26:25] "GET /give HTTP/1.1" 200 -
+2026-08-17 10:27:14,615 INFO MONNIFY RESPONSE: {"requestSuccessful": true, "responseMessage": "success", "responseCode": "0", "responseBody": {"transactionReference": "MNFY|65|20260817102714|000488", "paymentReference": "DON-2389E79609B144E3A373", "merchantName": "Abeni_code_craft", "apiKey": "MK_TEST_36SVGFDHSK", "redirectUrl": "http://127.0.0.1:5000/donation/DON-2389E79609B144E3A373", "enabledPaymentMethod": ["CARD", "ACCOUNT_TRANSFER"], "checkoutUrl": "https://sandbox.sdk.monnify.com/checkout/MNFY|65|20260817102714|000488"}}
+2026-08-17 10:27:14,631 INFO 127.0.0.1 - - [17/Aug/2026 10:27:14] "[32mPOST /give HTTP/1.1[0m" 302 -
+2026-08-17 10:28:20,506 INFO 127.0.0.1 - - [17/Aug/2026 10:28:20] "GET /donation/DON-2389E79609B144E3A373?paymentReference=DON-2389E79609B144E3A373 HTTP/1.1" 200 -
+2026-08-17 10:28:55,551 INFO 127.0.0.1 - - [17/Aug/2026 10:28:55] "GET / HTTP/1.1" 200 -
+2026-08-17 10:28:55,575 INFO 127.0.0.1 - - [17/Aug/2026 10:28:55] "[36mGET /static/images/WhatsApp%20Image%202026-08-08%20at%2011.34.26%20AM.jpeg HTTP/1.1[0m" 304 -
+2026-08-17 10:28:55,587 INFO 127.0.0.1 - - [17/Aug/2026 10:28:55] "[36mGET /static/images/church_image_6.jpeg HTTP/1.1[0m" 304 -
+2026-08-17 10:29:00,126 INFO 127.0.0.1 - - [17/Aug/2026 10:29:00] "GET /board HTTP/1.1" 200 -
+2026-08-17 10:29:00,145 INFO 127.0.0.1 - - [17/Aug/2026 10:29:00] "[36mGET /static/images/WhatsApp%20Image%202026-08-08%20at%2011.34.27%20AM.jpeg HTTP/1.1[0m" 304 -
+2026-08-17 10:29:00,151 INFO 127.0.0.1 - - [17/Aug/2026 10:29:00] "[36mGET /static/images/oluso_wife.jpeg HTTP/1.1[0m" 304 -
+2026-08-17 10:29:00,161 INFO 127.0.0.1 - - [17/Aug/2026 10:29:00] "GET /static/images/oluso_mum.jpeg HTTP/1.1" 200 -
+2026-08-17 10:30:13,748 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.245.45.156:5000
+2026-08-17 10:30:13,749 INFO [33mPress CTRL+C to quit[0m
+2026-08-17 10:30:13,751 INFO  * Restarting with stat
+2026-08-17 10:30:15,328 WARNING  * Debugger is active!
+2026-08-17 10:30:15,332 INFO  * Debugger PIN: 489-864-850
+2026-08-17 11:05:03,807 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.245.45.156:5000
+2026-08-17 11:05:03,808 INFO [33mPress CTRL+C to quit[0m
+2026-08-17 11:05:03,811 INFO  * Restarting with stat
+2026-08-17 11:05:05,562 WARNING  * Debugger is active!
+2026-08-17 11:05:05,574 INFO  * Debugger PIN: 489-864-850
+2026-08-17 11:06:37,796 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.245.45.156:5000
+2026-08-17 11:06:37,796 INFO [33mPress CTRL+C to quit[0m
+2026-08-17 11:06:37,799 INFO  * Restarting with stat
+2026-08-17 11:06:39,331 WARNING  * Debugger is active!
+2026-08-17 11:06:39,336 INFO  * Debugger PIN: 489-864-850
+2026-08-17 11:09:06,076 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.245.45.156:5000
+2026-08-17 11:09:06,076 INFO [33mPress CTRL+C to quit[0m
+2026-08-17 11:09:06,078 INFO  * Restarting with stat
+2026-08-17 11:09:07,854 WARNING  * Debugger is active!
+2026-08-17 11:09:07,861 INFO  * Debugger PIN: 489-864-850
+2026-08-17 11:10:17,364 INFO  * Detected change in 'C:\\Users\\USER\\Downloads\\st-michael-parish-website\\saint_michael_backend.py', reloading
+2026-08-17 11:10:17,364 INFO  * Detected change in 'C:\\Users\\USER\\Downloads\\st-michael-parish-website\\saint_michael_backend.py', reloading
+2026-08-17 11:10:17,547 INFO  * Detected change in 'C:\\Users\\USER\\Downloads\\st-michael-parish-website\\saint_michael_backend.py', reloading
+2026-08-17 11:10:17,592 INFO  * Detected change in 'C:\\Users\\USER\\Downloads\\st-michael-parish-website\\saint_michael_backend.py', reloading
+2026-08-17 11:10:18,039 INFO  * Restarting with stat
+2026-08-17 11:10:18,058 INFO  * Restarting with stat
+2026-08-17 11:10:18,133 INFO  * Restarting with stat
+2026-08-17 11:10:18,137 INFO  * Restarting with stat
+2026-08-17 11:10:28,316 WARNING  * Debugger is active!
+2026-08-17 11:10:28,326 INFO  * Debugger PIN: 489-864-850
+2026-08-17 11:10:28,487 WARNING  * Debugger is active!
+2026-08-17 11:10:28,494 INFO  * Debugger PIN: 489-864-850
+2026-08-17 11:10:28,547 WARNING  * Debugger is active!
+2026-08-17 11:10:28,555 INFO  * Debugger PIN: 489-864-850
+2026-08-17 11:10:28,750 WARNING  * Debugger is active!
+2026-08-17 11:10:29,585 INFO  * Debugger PIN: 489-864-850
+2026-08-17 11:10:36,886 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.245.45.156:5000
+2026-08-17 11:10:36,886 INFO [33mPress CTRL+C to quit[0m
+2026-08-17 11:14:23,827 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-08-17 11:14:23,827 INFO [33mPress CTRL+C to quit[0m
+2026-08-17 11:15:46,497 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-08-17 11:15:46,497 INFO [33mPress CTRL+C to quit[0m
+2026-08-17 11:19:12,325 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-08-17 11:19:12,325 INFO [33mPress CTRL+C to quit[0m
+2026-08-17 11:21:39,115 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-08-17 11:21:39,116 INFO [33mPress CTRL+C to quit[0m
+2026-08-17 11:22:18,061 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-08-17 11:22:18,061 INFO [33mPress CTRL+C to quit[0m
+2026-08-17 11:25:20,919 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.245.45.156:5000
+2026-08-17 11:25:20,920 INFO [33mPress CTRL+C to quit[0m
+2026-08-17 11:25:20,922 INFO  * Restarting with stat
+2026-08-17 11:25:22,491 WARNING  * Debugger is active!
+2026-08-17 11:25:22,495 INFO  * Debugger PIN: 489-864-850
+2026-08-17 11:27:59,458 INFO  * Detected change in 'C:\\Users\\USER\\Downloads\\st-michael-parish-website\\saint_michael_backend.py', reloading
+2026-08-17 11:27:59,711 INFO  * Restarting with stat
+2026-08-17 11:28:03,946 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.245.45.156:5000
+2026-08-17 11:28:03,946 INFO [33mPress CTRL+C to quit[0m
+2026-08-17 11:28:03,950 INFO  * Restarting with stat
+2026-08-17 11:28:04,445 WARNING  * Debugger is active!
+2026-08-17 11:28:04,453 INFO  * Debugger PIN: 489-864-850
+2026-08-17 11:28:06,644 WARNING  * Debugger is active!
+2026-08-17 11:28:06,651 INFO  * Debugger PIN: 489-864-850
+2026-08-17 11:28:16,791 INFO  * Detected change in 'C:\\Users\\USER\\Downloads\\st-michael-parish-website\\saint_michael_backend.py', reloading
+2026-08-17 11:28:17,216 INFO  * Restarting with stat
+2026-08-17 11:28:26,344 WARNING  * Debugger is active!
+2026-08-17 11:28:26,350 INFO  * Debugger PIN: 489-864-850

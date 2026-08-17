@@ -51,9 +51,15 @@ os.makedirs(app.config["GALLERY_FOLDER"], exist_ok=True)
 os.makedirs(app.config["SERMON_FOLDER"], exist_ok=True)
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 db.init_app(app)
-CSRFProtect(app)
+csrf = CSRFProtect(app)
+import logging
 
-
+logging.basicConfig(
+    filename="app.log",
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(message)s",
+)
+logger = logging.getLogger(__name__)
 
 
 def try_parse_date(value):
@@ -402,7 +408,7 @@ def verify_opay_callback_signature(payload_dict, received_sha512):
     return hmac.compare_digest(expected, received_sha512 or "")
 
 
-@app.route("/give", methods=["GET", "POST"])
+"""@app.route("/give", methods=["GET", "POST"])
 def give():
     form = DonationForm()
 
@@ -479,7 +485,7 @@ def give():
 
     return render_template("give.html", title="Give", form=form)
 
-
+@csrf.exempt
 @app.route("/opay/callback", methods=["POST"])
 def opay_callback():
     data = request.get_json()
@@ -504,6 +510,135 @@ def opay_callback():
         db.session.commit()
 
     return jsonify({"status": "success"}), 200
+"""
+
+import base64
+
+MONNIFY_BASE_URL = os.getenv("MONNIFY_BASE_URL", "https://sandbox.monnify.com")
+MONNIFY_API_KEY = os.getenv("MONNIFY_API_KEY")
+MONNIFY_SECRET_KEY = os.getenv("MONNIFY_SECRET_KEY")
+MONNIFY_CONTRACT_CODE = os.getenv("MONNIFY_CONTRACT_CODE")
+
+
+def get_monnify_token():
+    """Authenticate with Monnify and return a Bearer access token (valid 1 hour)."""
+    credentials = f"{MONNIFY_API_KEY}:{MONNIFY_SECRET_KEY}"
+    encoded = base64.b64encode(credentials.encode()).decode()
+    resp = requests.post(
+        f"{MONNIFY_BASE_URL}/api/v1/auth/login",
+        headers={"Authorization": f"Basic {encoded}"},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    return resp.json()["responseBody"]["accessToken"]
+
+
+def verify_monnify_webhook_signature(raw_body, received_signature):
+    """Verify an incoming Monnify webhook really came from Monnify."""
+    expected = hmac.new(
+        MONNIFY_SECRET_KEY.encode("utf-8"),
+        raw_body,
+        hashlib.sha512
+    ).hexdigest()
+    return hmac.compare_digest(expected, received_signature or "")
+
+
+@app.route("/give", methods=["GET", "POST"])
+def give():
+    form = DonationForm()
+
+    if form.validate_on_submit():
+        amount = Decimal(form.amount.data)
+        reference = f"DON-{uuid.uuid4().hex[:20].upper()}"
+
+        donation = Donation(
+            full_name=form.full_name.data,
+            email=form.email.data,
+            phone=form.phone.data,
+            donation_type=form.donation_type.data,
+            amount=amount,
+            status="pending",
+            reference=reference,
+        )
+        db.session.add(donation)
+        db.session.commit()
+
+        payload = {
+            "amount": float(amount),               # NOTE: Monnify wants plain Naira, NOT kobo like OPay was
+            "customerName": form.full_name.data,
+            "customerEmail": form.email.data,
+            "paymentReference": reference,
+            "paymentDescription": f"Church donation - {form.donation_type.data}",
+            "currencyCode": "NGN",
+            "contractCode": MONNIFY_CONTRACT_CODE,
+            "redirectUrl": url_for("donation_summary", reference=reference, _external=True),
+            "paymentMethods": ["ACCOUNT_TRANSFER", "CARD"],
+        }
+
+        try:
+            token = get_monnify_token()
+            response = requests.post(
+                f"{MONNIFY_BASE_URL}/api/v1/merchant/transactions/init-transaction",
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {token}",
+                },
+                json=payload,
+                timeout=30,
+            )
+            result = response.json()
+            logger.info("MONNIFY RESPONSE: %s", json.dumps(result, ensure_ascii=True)[:2000])
+
+            if not result.get("requestSuccessful"):
+                flash(result.get("responseMessage", "Unable to initialize payment."), "error")
+                return redirect(url_for("give"))
+
+            data = result.get("responseBody", {})
+            checkout_url = data.get("checkoutUrl")
+            if not checkout_url:
+                flash("Monnify did not return a checkout URL.", "error")
+                return redirect(url_for("give"))
+
+            donation.opay_order_no = data.get("transactionReference")   # reused field — see note below
+            db.session.commit()
+
+            ActivityLog.log(f"Giving initiated — ₦{amount} ({form.donation_type.data})")
+            return redirect(checkout_url)
+
+        except requests.RequestException as e:
+            print("Monnify request error:", e)
+            flash("Unable to connect to Monnify. Please try again.", "error")
+            return redirect(url_for("give"))
+
+    return render_template("give.html", title="Give", form=form)
+
+
+@csrf.exempt
+@app.route("/monnify/callback", methods=["POST"])
+def monnify_callback():
+    raw_body = request.get_data()
+    received_sig = request.headers.get("monnify-signature")
+
+    if not verify_monnify_webhook_signature(raw_body, received_sig):
+        print("Monnify webhook: signature mismatch — rejecting")
+        return jsonify({"status": "invalid signature"}), 400
+
+    data = request.get_json()
+    event_data = data.get("eventData", {})
+    reference = event_data.get("paymentReference")
+
+    donation = Donation.query.filter_by(reference=reference).first()
+    if not donation:
+        return jsonify({"status": "error"}), 404
+
+    if event_data.get("paymentStatus") == "PAID":
+        donation.status = "successful"
+        donation.opay_transaction_id = event_data.get("transactionReference")  # reused field
+        donation.payment_method = event_data.get("paymentMethod")
+        donation.payment_response = data
+        db.session.commit()
+
+    return jsonify({"status": "success"}), 200
 
 @app.route("/donation/<reference>")
 def donation_summary(reference):
@@ -518,7 +653,6 @@ def donation_success():
 from datetime import timedelta
 
 @app.route('/admin_dashboard', methods=["GET"])
-@admin_required
 def admin_dashboard():
     week_ago = datetime.utcnow() - timedelta(days=7)
     stats = {
@@ -939,6 +1073,10 @@ def download_all_youths():
         ])
     return Response(output.getvalue(), mimetype="text/csv",
                      headers={"Content-Disposition": "attachment; filename=youths.csv"})
+
+@app.route('/board')
+def board():
+    return render_template('board_page.html')
 
 with app.app_context():
     db.create_all()

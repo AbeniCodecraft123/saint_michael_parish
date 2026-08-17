@@ -592,7 +592,7 @@ class GalleryForm(FlaskForm):
 
 import uuid
 
-class Donation(db.Model):
+"""class Donation(db.Model):
     __tablename__ = "donations"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -602,12 +602,12 @@ class Donation(db.Model):
     email = db.Column(db.String(150), nullable=False)
     phone = db.Column(db.String(20), nullable=True)
 
-    donation_type = db.Column(db.String(30), nullable=False)  # 'tithe', 'offering', 'harvest', 'building_fund', etc.
+    donation_type = db.Column(db.String(30), nullable=False)
     amount = db.Column(db.Numeric(12, 2), nullable=False)
     currency = db.Column(db.String(3), default="NGN")
 
-    status = db.Column(db.String(20), default="pending")  # pending, successful, failed, cancelled
-    opay_order_no = db.Column(db.String(100), nullable=True)   # OPay's orderNo from their response
+    status = db.Column(db.String(20), default="pending")
+    opay_order_no = db.Column(db.String(100), nullable=True)
     opay_transaction_id = db.Column(db.String(100), nullable=True)
     payment_method = db.Column(db.String(50), nullable=True)
     payment_response = db.Column( db.JSON, nullable=True)
@@ -618,8 +618,34 @@ class Donation(db.Model):
         return (f"<Donation {self.reference} "
                 f"{self.amount} "
                 f"{self.status}>")
+"""
 
+class Donation(db.Model):
+    __tablename__ = "donations"
 
+    id = db.Column(db.Integer, primary_key=True)
+    reference = db.Column(db.String(64), unique=True, nullable=False, default=lambda: uuid.uuid4().hex)
+
+    full_name = db.Column(db.String(150), nullable=False)
+    email = db.Column(db.String(150), nullable=False)
+    phone = db.Column(db.String(20), nullable=True)
+
+    donation_type = db.Column(db.String(30), nullable=False)
+    amount = db.Column(db.Numeric(12, 2), nullable=False)
+    currency = db.Column(db.String(3), default="NGN")
+
+    status = db.Column(db.String(20), default="pending")
+    transaction_reference = db.Column(db.String(100), nullable=True)   # was opay_order_no
+    gateway_transaction_id = db.Column(db.String(100), nullable=True)  # was opay_transaction_id
+    payment_method = db.Column(db.String(50), nullable=True)
+    payment_response = db.Column(db.JSON, nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def __repr__(self):
+        return (f"<Donation {self.reference} "
+                f"{self.amount} "
+                f"{self.status}>")
 
 class DonationForm(FlaskForm):
     full_name = StringField("Full Name", validators=[DataRequired(), Length(min=2, max=150)])
