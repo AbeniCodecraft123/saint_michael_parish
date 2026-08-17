@@ -55,12 +55,15 @@ csrf = CSRFProtect(app)
 import logging
 
 logging.basicConfig(
-    filename="app.log",
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(message)s",
 )
 logger = logging.getLogger(__name__)
 
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+console_handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
+logging.getLogger().addHandler(console_handler)
 
 def try_parse_date(value):
     for fmt in ('%Y-%m-%d', '%d-%m-%Y', '%d/%m/%Y', '%B %d, %Y', '%b %d, %Y', '%B %Y', '%b %Y'):
