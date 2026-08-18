@@ -529,7 +529,7 @@
         <div class="dropdown-menu">
             <a href="{{url_for('about')}}#patriarchs">Past Legend</a>
             <a href="{{url_for('about')}}#current">Present Legend</a>
-            <a href="{{url_for('about')}}#founder">Founder and the shepherd</a>
+            <a href="{{url_for('about')}}#founder">The Church's Shepherd</a>
             <a href="{{url_for('about')}}#wife">shepherd's wife</a>
             <a href="{{url_for('about')}}#church">The Church</a>
             <a href="{{url_for('about')}}#core-values">Our Core Values</a>
@@ -549,8 +549,8 @@
       <a href="{{url_for('announcements')}}">Announcements</a>
       <a href="{{url_for('contact')}}">Contact</a>
          <a href="{{url_for('give')}}" >Give</a>
-    <button class="menu-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
     </div>
+    <button class="menu-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
 
   </nav>
 </header>
@@ -575,7 +575,7 @@
             <img src="../static/images/oshoffa.jpeg" alt="papa">
         </div>
         <div class="caption"><h4>Rev. Pastor Samuel Joseph Bilewu Oshoffa </h4>
-            <span> The Founder.</span></div>
+            <span></span></div>
       </div>
       <div class="patriarch-card">
         <div class="img-ph">
@@ -2196,6 +2196,13 @@ Glory be to God for all He has done in her life.</p>`
   modal.addEventListener('click', (e) => { if(e.target === modal) closeReadMoreModal(); });
   document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeReadMoreModal(); });
 
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        if (window.innerWidth <= 900) {
+            links.style.display = 'none';
+        }
+    });
+});
  document.querySelectorAll('.dropdown > .dropbtn').forEach(btn => {
     btn.addEventListener('click', function(e) {
         // Only intercept on mobile/touch — let desktop hover still work
